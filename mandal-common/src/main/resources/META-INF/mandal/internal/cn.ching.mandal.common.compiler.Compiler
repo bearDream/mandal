@@ -1,0 +1,2 @@
+adaptive=cn.ching.mandal.common.compiler.support.AdaptiveCompiler
+jdk=cn.ching.mandal.common.compiler.support.JdkCompiler

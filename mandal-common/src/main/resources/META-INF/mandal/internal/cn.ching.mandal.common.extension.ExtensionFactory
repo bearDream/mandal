@@ -1,0 +1,2 @@
+adaptive=cn.ching.mandal.common.extension.factory.AdaptiveExtensionFactory
+spi=cn.ching.mandal.common.extension.factory.SpiExtensionFactory
