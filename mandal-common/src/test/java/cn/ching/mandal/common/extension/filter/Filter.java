@@ -1,4 +1,4 @@
-package cn.ching.mandal.common.filter;
+package cn.ching.mandal.common.extension.filter;
 
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.extension.Adaptive;

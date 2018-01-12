@@ -1,12 +1,15 @@
 package cn.ching.mandal.common.extension;
 
+import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.compiler.Compiler;
+import cn.ching.mandal.common.extension.support.ActivateComparator;
 import cn.ching.mandal.common.logger.Logger;
 import cn.ching.mandal.common.logger.LoggerAdapter;
 import cn.ching.mandal.common.logger.LoggerFactory;
 import cn.ching.mandal.common.utils.ClassHolder;
 import cn.ching.mandal.common.utils.ConcurrentHashSet;
+import cn.ching.mandal.common.utils.ConfigUtils;
 import cn.ching.mandal.common.utils.StringUtils;
 
 import java.io.BufferedReader;
@@ -50,6 +53,7 @@ public class ExtensionLoader<T> {
     // when invoke constructor objectFactory has been instancing
     private final ExtensionFactory objectFactory;
 
+    // implication class name
     private final ConcurrentHashMap<Class<?>, String> cachedNames = new ConcurrentHashMap<Class<?>, String>();
 
     private final ClassHolder<Map<String, Class<?>>> cachedClasses = new ClassHolder<Map<String, Class<?>>>();
@@ -109,6 +113,141 @@ public class ExtensionLoader<T> {
     private static <T> boolean withExtensionAnnotation(Class<T> type) {
         return type.isAnnotationPresent(SPI.class);
     }
+
+    public String getExtensionName(T extesionInstances){
+        return getExtensionName(extesionInstances.getClass());
+    }
+
+    public String getExtensionName(Class<?> extensionClass){
+        return cachedNames.get(extensionClass);
+    }
+    /**
+     * get activate extension list
+     * @param url url
+     * @param key url parameter key which used to get extension point names
+     * @return extension list which activate
+     */
+    public List<T> getActivateExtension(URL url, String key){
+        return getActivateExtension(url, key, null);
+    }
+
+    /**
+     * get activate extension list
+     * @param url url
+     * @param values extension point names
+     * @return extension list which activate
+     */
+    public List<T> getActivateExtension(URL url, String[] values){
+        return getActivateExtension(url, values, null);
+    }
+
+    /**
+     * get activate extension list
+     * @param url url
+     * @param key url parameter key which used to get extension point names
+     * @param group group
+     * @return
+     */
+    public List<T> getActivateExtension(URL url, String key, String group){
+        String value = url.getParameter(key);
+        return getActivateExtension(url, StringUtils.isBlank(value) ? null : Constants.COMMA_SPLIT_PATTERN.split(value), group);
+    }
+
+    /**
+     * todo
+     * get activate extension list
+     * @param url url
+     * @param value extension point names
+     * @param group group
+     * @return
+     * @see {@link Activate}
+     */
+    public List<T> getActivateExtension(URL url, String[] value, String group){
+        List<T> exts = new ArrayList<>();
+        List<String> names = Objects.isNull(value) ? new ArrayList<>() : Arrays.asList(value);
+        // find name contain "-default". load all default activate extension
+        if (!names.contains(Constants.REMOVE_VALUE_PREFIX + Constants.DEFAULT_KEY)){
+            getExtensionClasses();
+            for (Map.Entry<String, Activate> entry : cachedActivates.entrySet()){
+                Activate activate = entry.getValue();
+                String name = entry.getKey();
+                if (isMatchGroup(group, activate.group())){
+                    T ext = getExtension(name);
+                    if (!names.contains(name)
+                            && !names.contains(Constants.REMOVE_VALUE_PREFIX + name)
+                            && isActive(activate, url)){
+                        exts.add(ext);
+                    }
+                }
+            }
+            // sort extension by order/before/after
+            Collections.sort(exts, ActivateComparator.COMPARATOR);
+        }
+        List<T> nameExtensions = new ArrayList<>();
+        names.stream().filter(name -> !name.startsWith(Constants.REMOVE_VALUE_PREFIX) && !names.contains(Constants.REMOVE_VALUE_PREFIX + name))
+                .forEach(name -> {
+                    if (Constants.DEFAULT_KEY.equals(name)){
+                        if (nameExtensions.size() > 0){
+                            exts.addAll(nameExtensions);
+                            nameExtensions.clear(); // avoid duplicate add to exts
+                        }
+                    }else {
+                        T ext = getExtension(name);
+                        nameExtensions.add(ext);
+                    }
+                });
+        if (nameExtensions.size() > 0){
+            exts.addAll(nameExtensions);
+        }
+        return exts;
+    }
+
+    /**
+     * mathch group exists in groups[]
+     * @param group
+     * @param groups
+     * @return
+     */
+    private boolean isMatchGroup(String group, String[] groups){
+        if (Objects.isNull(groups) || groups.length == 0){
+            return true;
+        }
+        if (Objects.isNull(groups) && groups.length > 0){
+            for (String g : groups){
+                if (g.equals(group)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * find url parameters in activate values
+     * @param activate
+     * @param url
+     * @return
+     */
+    private boolean isActive(Activate activate, URL url){
+        String[] keys = activate.value();
+        if (Objects.isNull(keys) || keys.length == 0){
+            return true;
+        }
+
+        if (Objects.isNull(keys) && keys.length > 0){
+            for (String key : keys){
+                for (Map.Entry<String, String> entry : url.getParameters().entrySet()){
+                    String k = entry.getKey();
+                    String v = entry.getValue();
+                    if ((k.equals(key) || k.endsWith("." + key) && ConfigUtils.isNotEmpty(v))){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * get adaptive instance

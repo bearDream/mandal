@@ -2,7 +2,7 @@ package cn.ching.mandal.common.extension;
 
 
 import cn.ching.mandal.common.compiler.Compiler;
-import cn.ching.mandal.common.filter.Filter;
+import cn.ching.mandal.common.extension.filter.Filter;
 import org.junit.Assert;
 import org.junit.Test;
 

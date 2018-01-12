@@ -1,7 +1,7 @@
-package cn.ching.mandal.common.filter.support;
+package cn.ching.mandal.common.extension.filter.support;
 
 import cn.ching.mandal.common.URL;
-import cn.ching.mandal.common.filter.Filter;
+import cn.ching.mandal.common.extension.filter.Filter;
 
 /**
  * 2018/1/10

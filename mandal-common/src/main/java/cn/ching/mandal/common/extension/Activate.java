@@ -29,4 +29,32 @@ public @interface Activate {
      */
     String[] group() default {};
 
+    /**
+     * Activate the current extension when the specified keys appear URL's parameters
+     * <p>
+     *    <code>@Activate("accesslog, actives")</code>
+     *    the current extension will be return only when <code>accesslog</code> or <code>actives</code> key
+     *    appear in the URL's parameters
+     * </p>
+     * @return URL Parameter key
+     */
+    String[] value() default {};
+
+    /**
+     * relative ordering  optional
+     * @return extension list which should be put after before the current one.
+     */
+    String[] before() default {};
+
+    /**
+     * relative ordering  optional
+     * @return extension list which should be put after after the current one.
+     */
+    String[] after() default {};
+
+    /**
+     * order extensions by order.  optional
+     * @return
+     */
+    int order() default 0;
 }
