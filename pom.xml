@@ -11,6 +11,9 @@
     <modules>
         <module>mandal-rpc</module>
         <module>mandal-common</module>
+        <module>mandal-config</module>
+        <module>mandal-registry-api</module>
+        <module>mandal-cluster</module>
     </modules>
 
 

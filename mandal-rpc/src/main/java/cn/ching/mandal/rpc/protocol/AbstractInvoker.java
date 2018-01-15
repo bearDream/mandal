@@ -130,7 +130,7 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         RpcUtils.attachInvokeIdIfAsync(getUrl(), invocation);
 
         try {
-            doInvoke(invocation);
+            return doInvoke(invocation);
         }catch (InvocationTargetException te){
             Throwable t = te.getTargetException();
             if (Objects.isNull(t)){
@@ -151,8 +151,6 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         }catch (Throwable t){
             return new RpcResult(t);
         }
-
-        return null;
     }
 
     protected abstract Result doInvoke(Invocation invocation) throws Throwable;

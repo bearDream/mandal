@@ -45,9 +45,9 @@ public class Constants {
 
     public static final String DYNAMIC_KEY = "dynamic";
 
-    public static final String DUBBO_PROPERTIES_KEY = "dubbo.properties.file";
+    public static final String MANDAL_PROPERTIES_KEY = "mandal.properties.file";
 
-    public static final String DEFAULT_DUBBO_PROPERTIES = "dubbo.properties";
+    public static final String DEFAULT_MANDAL_PROPERTIES = "mandal.properties";
 
     public static final String SENT_KEY = "sent";
 
@@ -67,11 +67,11 @@ public class Constants {
 
     public static final String DEFAULT_CLUSTER = "failover";
 
-    public static final String DEFAULT_DIRECTORY = "dubbo";
+    public static final String DEFAULT_DIRECTORY = "mandal";
 
     public static final String DEFAULT_LOADBALANCE = "random";
 
-    public static final String DEFAULT_PROTOCOL = "dubbo";
+    public static final String DEFAULT_PROTOCOL = "mandal";
 
     public static final String DEFAULT_EXCHANGER = "header";
 
@@ -81,7 +81,7 @@ public class Constants {
 
     public static final String DEFAULT_REMOTING_CLIENT = "netty";
 
-    public static final String DEFAULT_REMOTING_CODEC = "dubbo";
+    public static final String DEFAULT_REMOTING_CODEC = "mandal";
 
     public static final String DEFAULT_REMOTING_SERIALIZATION = "hessian2";
 
@@ -153,7 +153,7 @@ public class Constants {
 
     public static final String CONSUMER_SIDE = "consumer";
 
-    public static final String DEFAULT_REGISTRY = "dubbo";
+    public static final String DEFAULT_REGISTRY = "mandal";
 
     public static final String BACKUP_KEY = "backup";
 
@@ -239,7 +239,7 @@ public class Constants {
 
     public static final String PROMPT_KEY = "prompt";
 
-    public static final String DEFAULT_PROMPT = "dubbo>";
+    public static final String DEFAULT_PROMPT = "mandal>";
 
     public static final String CODEC_KEY = "codec";
 
@@ -299,6 +299,8 @@ public class Constants {
 
     public static final String INTERFACE_KEY = "interface";
 
+    public static final String INTERFACES = "interfaces";
+
     public static final String GENERIC_KEY = "generic";
 
     public static final String FILE_KEY = "file";
@@ -313,7 +315,7 @@ public class Constants {
 
     public static final String REVISION_KEY = "revision";
 
-    public static final String DUBBO_VERSION_KEY = "dubbo";
+    public static final String MANDAL_VERSION_KEY = "mandal";
 
     public static final String HESSIAN_VERSION_KEY = "hessian.version";
 
@@ -490,9 +492,9 @@ public class Constants {
     public static final String CHANNEL_CALLBACK_KEY = "channel.callback.invokers.key";
 
     @Deprecated
-    public static final String SHUTDOWN_WAIT_SECONDS_KEY = "dubbo.services.shutdown.wait.seconds";
+    public static final String SHUTDOWN_WAIT_SECONDS_KEY = "mandal.services.shutdown.wait.seconds";
 
-    public static final String SHUTDOWN_WAIT_KEY = "dubbo.services.shutdown.wait";
+    public static final String SHUTDOWN_WAIT_KEY = "mandal.services.shutdown.wait";
 
     public static final String IS_SERVER_KEY = "isserver";
 
@@ -534,11 +536,11 @@ public class Constants {
 
     public static final String DEFAULT_SCRIPT_TYPE_KEY = "javascript";
 
-    public static final String STUB_EVENT_KEY = "dubbo.stub.event";
+    public static final String STUB_EVENT_KEY = "mandal.stub.event";
 
     public static final boolean DEFAULT_STUB_EVENT = false;
 
-    public static final String STUB_EVENT_METHODS_KEY = "dubbo.stub.event.methods";
+    public static final String STUB_EVENT_METHODS_KEY = "mandal.stub.event.methods";
 
     /**
      * When this attribute appears in invocation's attachment, mock invoker will be used
@@ -581,13 +583,13 @@ public class Constants {
 
     public static final String GENERIC_SERIALIZATION_BEAN = "bean";
 
-    public static final String DUBBO_IP_TO_REGISTRY = "DUBBO_IP_TO_REGISTRY";
+    public static final String MANDAL_IP_TO_REGISTRY = "MANDAL_IP_TO_REGISTRY";
 
-    public static final String DUBBO_PORT_TO_REGISTRY = "DUBBO_PORT_TO_REGISTRY";
+    public static final String MANDAL_PORT_TO_REGISTRY = "MANDAL_PORT_TO_REGISTRY";
 
-    public static final String DUBBO_IP_TO_BIND = "DUBBO_IP_TO_BIND";
+    public static final String MANDAL_IP_TO_BIND = "MANDAL_IP_TO_BIND";
 
-    public static final String DUBBO_PORT_TO_BIND = "DUBBO_PORT_TO_BIND";
+    public static final String MANDAL_PORT_TO_BIND = "MANDAL_PORT_TO_BIND";
 
     public static final String BIND_IP_KEY = "bind.ip";
 
