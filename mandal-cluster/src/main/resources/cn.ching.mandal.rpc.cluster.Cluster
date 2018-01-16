@@ -1,0 +1,2 @@
+failover=cn.ching.mandal.rpc.cluster.support.FailoverCluster
+failback=cn.ching.mandal.rpc.cluster.support.FailbackClusterInvoker

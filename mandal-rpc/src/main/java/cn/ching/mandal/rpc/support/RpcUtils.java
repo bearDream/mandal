@@ -6,7 +6,9 @@ import cn.ching.mandal.common.logger.Logger;
 import cn.ching.mandal.common.logger.LoggerFactory;
 import cn.ching.mandal.common.utils.ReflectUtils;
 import cn.ching.mandal.rpc.Invocation;
+import cn.ching.mandal.rpc.RpcException;
 import cn.ching.mandal.rpc.RpcInvocation;
+import cn.ching.mandal.rpc.RpcResult;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -99,5 +101,13 @@ public class RpcUtils {
         }
     }
 
+    /**
+     * if this object is RpcException then return code, otherwise return 0
+     * @param t RpcResult or other object
+     * @return {@link RpcException#getCode()}
+     */
+    public static int convertExceptionCode(Object t){
+        return t instanceof RpcException ? ((RpcException) t).getCode() : 0;
+    }
 
 }

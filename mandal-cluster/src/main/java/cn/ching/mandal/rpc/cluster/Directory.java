@@ -9,7 +9,8 @@ import java.util.List;
 
 /**
  * 2018/1/15
- *
+ * cluster directory.
+ * find available service from directory.
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */

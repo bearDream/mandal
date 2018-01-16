@@ -16,8 +16,8 @@
  */
 package cn.ching.mandal.common.bytecode;
 
-import com.alibaba.dubbo.common.utils.ClassHelper;
-import com.alibaba.dubbo.common.utils.ReflectUtils;
+import cn.ching.mandal.common.utils.ClassHelper;
+import cn.ching.mandal.common.utils.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

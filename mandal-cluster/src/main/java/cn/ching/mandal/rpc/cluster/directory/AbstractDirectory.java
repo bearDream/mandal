@@ -5,6 +5,7 @@ import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.extension.ExtensionLoader;
 import cn.ching.mandal.common.logger.Logger;
 import cn.ching.mandal.common.logger.LoggerFactory;
+import cn.ching.mandal.common.utils.CollectionUtils;
 import cn.ching.mandal.common.utils.StringUtils;
 import cn.ching.mandal.rpc.Invocation;
 import cn.ching.mandal.rpc.Invoker;
@@ -13,6 +14,8 @@ import cn.ching.mandal.rpc.cluster.Directory;
 import cn.ching.mandal.rpc.cluster.Router;
 import cn.ching.mandal.rpc.cluster.RouterFactory;
 import cn.ching.mandal.rpc.cluster.router.MockInvokerSelector;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +28,7 @@ import java.util.Objects;
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
-public abstract class AbstractDirectory implements Directory{
+public abstract class AbstractDirectory<T> implements Directory<T>{
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractDirectory.class);
 
@@ -33,8 +36,11 @@ public abstract class AbstractDirectory implements Directory{
 
     private volatile boolean destroyed = false;
 
+    @Getter
+    @Setter
     private volatile URL consumerUrl;
 
+    @Getter
     private volatile List<Router> routers;
 
     public AbstractDirectory(URL url){
@@ -53,29 +59,40 @@ public abstract class AbstractDirectory implements Directory{
         this.consumerUrl = consumerUrl;
         this.routers = routers;
     }
-    @Override
-    public Class getInterface() {
-        return null;
-    }
 
     @Override
-    public List<Invoker> list(Invocation invocation) throws RpcException {
-        return null;
+    public List<Invoker<T>> list(Invocation invocation) throws RpcException {
+        if (destroyed){
+            throw new RpcException("directory was destryed! url: " + getUrl());
+        }
+        List<Invoker<T>> invokers = doList(invocation);
+        List<Router> localRouters = this.routers;
+        if (CollectionUtils.isNotEmpty(localRouters)){
+            for (Router localRouter : localRouters) {
+                try {
+                    if (Objects.nonNull(getUrl()) || localRouter.getUrl().getParameter(Constants.RUNTIME_KEY, false)){
+                        invokers = localRouter.route(invokers, getConsumerUrl(), invocation);
+                    }
+                }catch (Throwable t){
+                    logger.error("failed execute router " + getUrl() + ", cause: " + t.getMessage(), t);
+                }
+            }
+        }
+        return invokers;
     }
 
     @Override
     public URL getUrl() {
-        return null;
-    }
-
-    @Override
-    public boolean isAvailable() {
-        return false;
+        return url;
     }
 
     @Override
     public void destroy() {
+        destroyed = true;
+    }
 
+    public boolean isDestroyed() {
+        return destroyed;
     }
 
     public void setRouters(List<Router> routers) {
@@ -90,4 +107,6 @@ public abstract class AbstractDirectory implements Directory{
         Collections.sort(routers);
         this.routers = routers;
     }
+
+    protected abstract List<Invoker<T>> doList(Invocation invocation) throws RpcException;
 }
