@@ -2,25 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
+        <artifactId>mandal-parent</artifactId>
         <groupId>cn.ching</groupId>
-        <artifactId>mandal-registry</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.ching</groupId>
-    <artifactId>mandal-registry-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <artifactId>mandal-remoting</artifactId>
+
+    <modules>
+        <module>mandal-remoting-zookeeper</module>
+    </modules>
 
     <dependencies>
         <dependency>
             <groupId>cn.ching</groupId>
             <artifactId>mandal-common</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 </project>

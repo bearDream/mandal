@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 /**
  * 2018/1/5
  * load extension
+ * wrapper class must have constructor as Protocol as parameter.
  * @since 1.8
  * @author chi.zhang
  * @email laxzhang@outlook.com
@@ -154,7 +155,6 @@ public class ExtensionLoader<T> {
     }
 
     /**
-     * todo
      * get activate extension list
      * @param url url
      * @param value extension point names
@@ -338,7 +338,7 @@ public class ExtensionLoader<T> {
             if (StringUtils.notBlank(val)){
                 String[] vals = NAME_SEPERATOR.split(val);
                 if (vals.length > 1){
-                    throw new IllegalStateException("more then 1 extension name: " + type.getName() + " " + Arrays.toString(vals));
+                    throw new IllegalStateException("more than 1 extension name: " + type.getName() + " " + Arrays.toString(vals));
                 }
                 if (vals.length==1){
                     cachedDefaultName = vals[0];
@@ -411,6 +411,7 @@ public class ExtensionLoader<T> {
                                             }else {
                                                 try {
                                                     // judge clazz has type as parameter construct method! if not have constructor then throw NoSuchMethodException
+                                                    // get wrapper class.(only for wrapper Design pattern)
                                                     clazz.getConstructor(type);
                                                     Set<Class<?>> wrappers = cachedWrapperClasses;
                                                     if (Objects.isNull(wrappers)){

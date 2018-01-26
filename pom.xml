@@ -12,15 +12,16 @@
         <module>mandal-rpc</module>
         <module>mandal-common</module>
         <module>mandal-config</module>
-        <module>mandal-registry-api</module>
+        <module>mandal-registry</module>
         <module>mandal-cluster</module>
+        <module>mandal-remoting</module>
     </modules>
 
 
     <properties>
         <!-- common -->
         <javassist_version>3.20.0-GA</javassist_version>
-
+        <mandal_version>0.0.1-SNAPSHOT</mandal_version>
         <!-- Log libs -->
         <slf4j_version>1.7.25</slf4j_version>
         <jcl_version>1.2</jcl_version>
