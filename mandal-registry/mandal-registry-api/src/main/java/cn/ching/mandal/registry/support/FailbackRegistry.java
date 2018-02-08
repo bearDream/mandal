@@ -206,6 +206,11 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         }
     }
 
+    protected void doNotify(URL url, NotifyListener listener, List<URL> urls){
+        super.notify(url, listener, urls);
+    }
+
+
     @Override
     protected void recover() throws Exception {
         // register
@@ -409,6 +414,4 @@ public abstract class FailbackRegistry extends AbstractRegistry {
     protected abstract void doRegister(URL url);
 
     protected abstract void doUnRegister(URL url);
-
-    protected abstract void doNotify(URL url, NotifyListener listener, List<URL> urls);
 }

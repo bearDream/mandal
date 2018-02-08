@@ -14,5 +14,28 @@
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 
-    
+    <dependencies>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-rpc-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+    </dependencies>
 </project>

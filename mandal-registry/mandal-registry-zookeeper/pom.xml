@@ -21,5 +21,15 @@
             <artifactId>mandal-registry-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-rpc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-remoting-zookeeper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

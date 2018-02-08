@@ -18,7 +18,12 @@
     <dependencies>
         <dependency>
             <groupId>cn.ching</groupId>
-            <artifactId>mandal-common</artifactId>
+            <artifactId>mandal-cluster</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-container-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

@@ -10,6 +10,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="mandal-cluster" />
+    <orderEntry type="module" module-name="mandal-rpc-api" />
+    <orderEntry type="module" module-name="mandal-container-api" />
     <orderEntry type="module" module-name="mandal-common" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.16" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.38" level="project" />

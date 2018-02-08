@@ -11,10 +11,8 @@ import cn.ching.mandal.rpc.*;
 import cn.ching.mandal.rpc.cluster.Directory;
 import cn.ching.mandal.rpc.cluster.Merger;
 import cn.ching.mandal.rpc.cluster.MergerFactory;
-import cn.ching.mandal.rpc.cluster.directory.StaticDirectory;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;

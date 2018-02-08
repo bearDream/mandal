@@ -1,21 +1,27 @@
 package cn.ching.mandal.common.extension;
 
 
+import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.compiler.Compiler;
 import cn.ching.mandal.common.extension.filter.Filter;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ExtensionLoaderTest {
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Enumeration;
+
+public class ExtensionLoaderTest{
+
 
     @Test
-    public void getExtensionLoader() throws Exception {
+    public static void getExtensionLoader() throws Exception {
         try {
-            Filter filter = ExtensionLoader.getExtensionLoader(Filter.class).getAdaptiveExtension();
-            System.out.println(filter);
-            Assert.fail();
+            ExtensionLoader.getExtensionLoader(Compiler.class).getExtension("jdk");
         }catch (IllegalStateException e){
-            System.out.println(e);
+            System.err.println(e);
         }
     }
 

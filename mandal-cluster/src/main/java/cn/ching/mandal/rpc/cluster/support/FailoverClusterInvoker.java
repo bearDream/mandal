@@ -6,7 +6,6 @@ import cn.ching.mandal.common.logger.Logger;
 import cn.ching.mandal.common.logger.LoggerFactory;
 import cn.ching.mandal.common.utils.NetUtils;
 import cn.ching.mandal.rpc.*;
-import cn.ching.mandal.rpc.cluster.Cluster;
 import cn.ching.mandal.rpc.cluster.Directory;
 import cn.ching.mandal.rpc.cluster.LoadBalance;
 

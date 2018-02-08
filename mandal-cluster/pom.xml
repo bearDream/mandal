@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.ching</groupId>
-            <artifactId>mandal-rpc</artifactId>
+            <artifactId>mandal-rpc-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

@@ -7,7 +7,8 @@ import cn.ching.mandal.common.extension.SPI;
 
 /**
  * 2018/1/26
- *
+ * zkClient & curator
+ * two way of zookeeper client.
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */

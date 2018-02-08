@@ -122,6 +122,13 @@ public class ExtensionLoader<T> {
     public String getExtensionName(Class<?> extensionClass){
         return cachedNames.get(extensionClass);
     }
+
+
+    public String getDefaultExtensionName() {
+        getExtensionClasses();
+        return cachedDefaultName;
+    }
+
     /**
      * get activate extension list
      * @param url url
@@ -473,6 +480,10 @@ public class ExtensionLoader<T> {
     }
 
     private static ClassLoader findClassLoader(){
+        return ExtensionLoader.class.getClassLoader();
+    }
+
+    public static ClassLoader findclassLoader(){
         return ExtensionLoader.class.getClassLoader();
     }
 

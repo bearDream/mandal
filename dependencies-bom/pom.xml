@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>cn.ching</groupId>
+    <artifactId>mandal-dependencies-bom</artifactId>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
+
+    <name>mandal-dependencies-bom</name>
+    <description>Mandal dependencies BOM</description>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>chi.zhang</name>
+            <email>laxzhang@outlook.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <!-- common libs -->
+        <!-- 3rd lib -->
+        <zookeeper_version>3.4.9</zookeeper_version>
+        <zkclient>0.2</zkclient>
+        <curator_version>2.12.0</curator_version>
+        <spring_version>4.3.10.RELEASE</spring_version>
+        <!-- common -->
+        <javassist_version>3.20.0-GA</javassist_version>
+        <mandal_version>0.0.1-SNAPSHOT</mandal_version>
+        <!-- Log libs -->
+        <slf4j_version>1.7.25</slf4j_version>
+        <jcl_version>1.2</jcl_version>
+        <log4j_version>1.2.16</log4j_version>
+        <logback_version>1.2.2</logback_version>
+        <!-- util -->
+        <lombok_version>1.16.16</lombok_version>
+        <junit_version>4.12</junit_version>
+        <fastjson_version>1.2.38</fastjson_version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- common -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring_version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator_version}</version>
+            </dependency>
+            <!-- Log libs -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${jcl_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback_version}</version>
+            </dependency>
+            <!-- junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit_version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- utils -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok_version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
