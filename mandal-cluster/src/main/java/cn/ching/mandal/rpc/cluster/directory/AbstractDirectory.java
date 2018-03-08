@@ -63,7 +63,7 @@ public abstract class AbstractDirectory<T> implements Directory<T>{
     @Override
     public List<Invoker<T>> list(Invocation invocation) throws RpcException {
         if (destroyed){
-            throw new RpcException("directory was destryed! url: " + getUrl());
+            throw new RpcException("directory was destroyed! url: " + getUrl());
         }
         List<Invoker<T>> invokers = doList(invocation);
         List<Router> localRouters = this.routers;

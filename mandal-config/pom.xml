@@ -18,5 +18,6 @@
 
     <modules>
         <module>mandal-config-api</module>
+        <module>mandal-config-spring</module>
     </modules>
 </project>

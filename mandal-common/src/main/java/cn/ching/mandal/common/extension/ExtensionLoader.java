@@ -830,4 +830,29 @@ public class ExtensionLoader<T> {
     public String toString() {
         return this.getClass().getName() + "[" + type.getName() + "]";
     }
+
+    public boolean hasExtension(String name) {
+        if (StringUtils.isEmpty(name)){
+            throw new IllegalArgumentException("Extension name is null");
+        }
+        try {
+            return getExtensionClass(name) != null;
+        }catch (Throwable t){
+            return false;
+        }
+    }
+
+    private Class<?> getExtensionClass(String name) {
+        if (Objects.isNull(type)){
+            throw new IllegalArgumentException("Extension type == null");
+        }
+        if (Objects.isNull(name)){
+            throw new IllegalArgumentException("Extension name == null");
+        }
+        Class<?> clazz = getExtensionClasses().get(name);
+        if (Objects.isNull(clazz)){
+            throw new IllegalStateException("No such extension " + name + " for " + type.getName() + ".");
+        }
+        return clazz;
+    }
 }

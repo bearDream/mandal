@@ -110,4 +110,21 @@ public class RpcUtils {
         return t instanceof RpcException ? ((RpcException) t).getCode() : 0;
     }
 
+    public static Object[] getArgument(Invocation invocation) {
+        if (Constants.$INVOKE.equals(invocation.getMethodName())
+                && !Objects.isNull(invocation.getArguments())
+                && invocation.getArguments().length > 1
+                && invocation.getArguments()[1] instanceof String[]){
+            String[] types = (String[]) invocation.getArguments()[1];
+            if (Objects.isNull(types)){
+                return new Class<?>[0];
+            }
+            Class<?>[] parameterTypes = new Class<?>[types.length];
+            for (int i = 0; i < types.length; i++) {
+                parameterTypes[i] = ReflectUtils.forName(types[i]);
+            }
+            return parameterTypes;
+        }
+        return invocation.getParameterTypes();
+    }
 }

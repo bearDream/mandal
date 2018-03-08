@@ -3,6 +3,7 @@ package cn.ching.mandal.registry.support;
 import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.utils.ConcurrentHashSet;
+import cn.ching.mandal.registry.integration.RegistryDirectory;
 import cn.ching.mandal.rpc.Invoker;
 import sun.jvm.hotspot.compiler.OopMapValue;
 
@@ -29,6 +30,17 @@ public class ProviderConsumerRegisterTable {
         if (Objects.isNull(invokers)){
             providerInvokers.putIfAbsent(serviceUniqueName, new ConcurrentHashSet<ProviderInvokerWrapper>());
             invokers = providerInvokers.get(serviceUniqueName);
+        }
+        invokers.add(wrapperInvoker);
+    }
+
+    public static void registerConsumer(Invoker invoker, URL registryUrl, URL consumerUrl, RegistryDirectory registryDirectory) {
+        ConsumerInvokerWrapper wrapperInvoker = new ConsumerInvokerWrapper(invoker, registryUrl, consumerUrl, registryDirectory);
+        String serviceUniqueName = consumerUrl.getServiceKey();
+        Set<ConsumerInvokerWrapper> invokers = consumerInvokers.get(serviceUniqueName);
+        if (Objects.isNull(invoker)){
+            consumerInvokers.putIfAbsent(serviceUniqueName, new ConcurrentHashSet<ConsumerInvokerWrapper>());
+            invokers = consumerInvokers.get(serviceUniqueName);
         }
         invokers.add(wrapperInvoker);
     }

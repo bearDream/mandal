@@ -10,6 +10,7 @@ import cn.ching.mandal.common.utils.UrlUtils;
 import cn.ching.mandal.registry.NotifyListener;
 import cn.ching.mandal.registry.Registry;
 import cn.ching.mandal.registry.RegistryFactory;
+import cn.ching.mandal.registry.RegistryService;
 import cn.ching.mandal.registry.support.ProviderConsumerRegisterTable;
 import cn.ching.mandal.rpc.*;
 import cn.ching.mandal.rpc.cluster.Cluster;
@@ -18,10 +19,7 @@ import cn.ching.mandal.rpc.protocol.InvokerWrapper;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,7 +35,7 @@ public class RegistryProtocol implements Protocol{
     private static RegistryProtocol INSTANCE;
     @Getter
     private final Map<URL, NotifyListener> overridesListeners = new ConcurrentHashMap<>();
-    private final Map<String, ExporterChangeableWrapper> bounds = new ConcurrentHashMap<String, ExporterChangeableWrapper>();
+    private final Map<String, ExporterChangeableWrapper<?>> bounds = new ConcurrentHashMap<String, ExporterChangeableWrapper<?>>();
     @Setter
     private Cluster cluster;
     @Setter
@@ -82,6 +80,7 @@ public class RegistryProtocol implements Protocol{
         // judge delay publish whether or not
         boolean register = registedProviderUrl.getParameter(Constants.REGISTER_KEY, true);
 
+        // register provider.
         ProviderConsumerRegisterTable.registerProvider(originalInvoker, registerUrl, registedProviderUrl);
 
         if (register){
@@ -120,6 +119,49 @@ public class RegistryProtocol implements Protocol{
                 }
             }
         };
+    }
+
+    @Override
+    public <T> Invoker<T> refer(Class<T> type, URL url) {
+
+        url = url.setProtocol(url.getParameter(Constants.REGISTER_KEY, Constants.DEFAULT_REGISTRY)).removeParameter(Constants.REGISTER_KEY);
+        Registry registry = registryFactory.getRegistry(url);
+        if (RegistryService.class.equals(type)){
+            return proxyFactory.getInvoker((T) registry, type, url);
+        }
+
+        Map<String, String> queryStr = StringUtils.parseQueryString(url.getParameterAndDecoded(Constants.REFER_KEY));
+        String group = queryStr.get(Constants.GROUP_KEY);
+        if (!StringUtils.isEmpty(group)){
+            if ((Constants.COMMA_SEPARATOR.split(group).length > 1 || "*".equals(group))){
+                return doRefer(getMergeableCluster(), registry, type, url);
+            }
+        }
+
+        return doRefer(cluster, registry, type, url);
+    }
+
+    @Override
+    public void destroy() {
+        List<Exporter<?>> exporters = new ArrayList<>(bounds.values());
+        exporters.forEach(exporter -> exporter.unexport());
+        bounds.clear();
+    }
+
+    private <T> Invoker<T> doRefer(Cluster cluster, Registry registry, Class<T> type, URL url) {
+        RegistryDirectory<T> directory = new RegistryDirectory<T>(type, url);
+        directory.setRegistry(registry);
+        directory.setProtocol(protocol);
+        Map<String, String> parameters = new HashMap<>(directory.getUrl().getParameters());
+        URL subscribeUrl = new URL(Constants.CONSUMER_PROTOCOL, parameters.remove(Constants.REGISTER_IP_KEY), 0, type.getName(), parameters);
+        if (!Constants.ANY_VALUE.equals(url.getServiceInterface()) && url.getParameter(Constants.REGISTER_KEY, true)){
+            registry.register(subscribeUrl.addParameters(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY, Constants.CHECK_KEY, String.valueOf(false)));
+        }
+        directory.subscribe(subscribeUrl.addParameter(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY + "," + Constants.CONFIGURATORS_CATEGORY + "," + Constants.ROUTERS_CATEGORY));
+        Invoker invoker = cluster.join(directory);
+        // register consumer
+        ProviderConsumerRegisterTable.registerConsumer(invoker, url, subscribeUrl, directory);
+        return invoker;
     }
 
     private URL getSubscribeOverrideUrl(URL registedProviderUrl) {
@@ -167,10 +209,10 @@ public class RegistryProtocol implements Protocol{
 
     private <T> ExporterChangeableWrapper<T> doLocalExporter(final Invoker<T> originalInvoker) {
         String key = getCacheKey(originalInvoker);
-        ExporterChangeableWrapper<T> exporter = bounds.get(key);
+        ExporterChangeableWrapper<T> exporter = (ExporterChangeableWrapper<T>) bounds.get(key);
         if (Objects.isNull(exporter)){
             synchronized (bounds){
-                exporter = bounds.get(key);
+                exporter = (ExporterChangeableWrapper<T>) bounds.get(key);
                 if (Objects.isNull(exporter)){
                     final Invoker<?> invokerDelegate = new InvokerDelegate<T>(originalInvoker, getProviderUrl(originalInvoker));
                     exporter = new ExporterChangeableWrapper<T>((Exporter<T>) protocol.export(invokerDelegate), originalInvoker);
@@ -179,16 +221,6 @@ public class RegistryProtocol implements Protocol{
             }
         }
         return exporter;
-    }
-
-    @Override
-    public <T> Invoker<T> refer(Class<T> type, URL url) {
-        return null;
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     private URL getProviderUrl(final Invoker<?> origininvoker){
@@ -208,13 +240,17 @@ public class RegistryProtocol implements Protocol{
 
     private <T> void doChangeLocalExporter(final Invoker<T> originInvoker, URL newInvokeUrl) {
         String key = getCacheKey(originInvoker);
-        final ExporterChangeableWrapper<T> exporter = bounds.get(key);
+        final ExporterChangeableWrapper<T> exporter = (ExporterChangeableWrapper<T>) bounds.get(key);
         if (Objects.isNull(exporter)){
             logger.warn("error state, exporter should not be null.");
         }else {
             final Invoker<T> invokerDelegate = new InvokerDelegate<>(originInvoker,  newInvokeUrl);
             exporter.setExporter(protocol.export(invokerDelegate));
         }
+    }
+
+    public Cluster getMergeableCluster() {
+        return ExtensionLoader.getExtensionLoader(Cluster.class).getExtension("mergeable");
     }
 
     private class ExporterChangeableWrapper<T> implements Exporter<T>{
