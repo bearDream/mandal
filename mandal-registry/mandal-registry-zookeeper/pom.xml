@@ -11,7 +11,6 @@
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal-registry-zookeeper</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 

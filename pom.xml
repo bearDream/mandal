@@ -22,6 +22,7 @@
         <module>mandal-cluster</module>
         <module>mandal-remoting</module>
         <module>mandal-container</module>
+        <module>mandal-monitor</module>
         <module>dependencies-bom</module>
     </modules>
 
@@ -139,6 +140,8 @@
                                     <include>cn.ching:mandal-rpc-api</include>
                                     <include>cn.ching:mandal-rpc-injvm</include>
                                     <include>cn.ching:mandal-rpc-rmi</include>
+                                    <include>cn.ching:mandal-monitor-api</include>
+                                    <include>cn.ching:mandal-monitor-default</include>
                                 </includes>
                             </artifactSet>
                             <transformers>

@@ -68,6 +68,12 @@ public final class StringUtils {
         return false;
     }
 
+    public static boolean isTrimEmpty(String str) {
+        if (str == null || str.trim().length() == 0)
+            return true;
+        return false;
+    }
+
     /**
      * is not empty string.
      *
@@ -409,6 +415,13 @@ public final class StringUtils {
             }
         }
         return buf == null ? camelName : buf.toString();
+    }
+
+    public static void main(String[] args){
+        String msg = "getMsg";
+        System.out.println(msg.substring(3, 4));
+        System.out.println(msg.substring(4));
+        System.out.println(camelToSplitName(msg.substring(3, 4).toLowerCase()+msg.substring(4), "."));
     }
 
     public static String toArgumentString(Object[] args) {

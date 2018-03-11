@@ -5,26 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.ching</groupId>
-        <artifactId>mandal-registry</artifactId>
+        <artifactId>mandal-monitor</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
     <groupId>cn.ching</groupId>
-    <artifactId>mandal-registry-api</artifactId>
-    <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <artifactId>mandal-monitor-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.ching</groupId>
-            <artifactId>mandal-cluster</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.ching</groupId>
-            <artifactId>mandal-container-api</artifactId>
+            <artifactId>mandal-rpc-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
-
+    
 </project>

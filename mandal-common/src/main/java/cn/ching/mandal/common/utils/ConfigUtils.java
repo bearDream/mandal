@@ -7,6 +7,8 @@ import cn.ching.mandal.common.logger.LoggerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -26,6 +28,7 @@ public class ConfigUtils {
 
     private static Pattern VARIABLE_PATTERN = Pattern.compile("\\$\\s*\\{?\\s*([\\._0-9a-zA-Z]+)\\s*\\}?");
 
+    private static int PID = -1;
 
     private ConfigUtils(){}
 
@@ -180,5 +183,18 @@ public class ConfigUtils {
         }
 
         return properties;
+    }
+
+    public static int getPID() {
+        if (PID < 0){
+            try {
+                RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
+                String name = runtime.getName();
+                PID = Integer.parseInt(name.substring(0, name.indexOf('@')));
+            }catch (Throwable t){
+                PID = 0;
+            }
+        }
+        return PID;
     }
 }

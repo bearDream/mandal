@@ -11,6 +11,7 @@ import cn.ching.mandal.rpc.RpcInvocation;
 import cn.ching.mandal.rpc.RpcResult;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,7 +33,7 @@ public class RpcUtils {
      * @param invocation
      * @return
      */
-    public static Class<?> getReturnTypes(Invocation invocation){
+    public static Class<?> getReturnType(Invocation invocation){
         try {
             if (Objects.nonNull(invocation)
                     && Objects.nonNull(invocation.getInvoker())
@@ -46,6 +47,28 @@ public class RpcUtils {
                         return null;
                     }
                     return method.getReturnType();
+                }
+            }
+        }catch (Exception e){
+            LOGGER.warn(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    public static Type[] getReturnTypes(Invocation invocation){
+        try {
+            if (Objects.nonNull(invocation)
+                    && Objects.nonNull(invocation.getInvoker())
+                    && Objects.nonNull(invocation.getInvoker().getUrl())
+                    && invocation.getMethodName().startsWith("$")){
+                String service = invocation.getInvoker().getUrl().getServiceInterface();
+                if (Objects.nonNull(service) && service.length() > 0){
+                    Class<?> clazz = ReflectUtils.forName(service);
+                    Method method = clazz.getMethod(invocation.getMethodName(), invocation.getParameterTypes());
+                    if (method.getReturnType() == void.class){
+                        return null;
+                    }
+                    return new Type[]{method.getReturnType(), method.getGenericReturnType()};
                 }
             }
         }catch (Exception e){

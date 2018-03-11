@@ -32,7 +32,7 @@ import java.util.Set;
 public final class Version {
 
     private static final Logger logger = LoggerFactory.getLogger(Version.class);
-    private static final String VERSION = getVersion(Version.class, "2.0.0");
+    private static final String VERSION = getVersion(Version.class, "0.0.1");
     private static final boolean INTERNAL = hasResource("com/alibaba/dubbo/registry/internal/RemoteRegistry.class");
     private static final boolean COMPATIBLE = hasResource("com/taobao/remoting/impl/ConnectionRequest.class");
 

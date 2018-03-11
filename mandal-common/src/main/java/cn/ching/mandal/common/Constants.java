@@ -171,6 +171,8 @@ public class Constants {
 
     public static final String APPLICATION_KEY = "application";
 
+    public static final String APPLICATION_VERSION = "application.version";
+
     public static final String LOCAL_KEY = "local";
 
     public static final String STUB_KEY = "stub";
@@ -596,4 +598,6 @@ public class Constants {
     public static final String BIND_PORT_KEY = "bind.port";
 
     public static final String REGISTER_IP_KEY = "register.ip";
+
+    public static final String MODULE_VERSION = "module.version";
 }
