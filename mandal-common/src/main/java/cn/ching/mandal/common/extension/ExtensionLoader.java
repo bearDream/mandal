@@ -172,7 +172,7 @@ public class ExtensionLoader<T> {
     public List<T> getActivateExtension(URL url, String[] value, String group){
         List<T> exts = new ArrayList<>();
         List<String> names = Objects.isNull(value) ? new ArrayList<>() : Arrays.asList(value);
-        // find name contain "-default". load all default activate extension
+        // find name contain "-mandal". load all mandal activate extension
         if (!names.contains(Constants.REMOVE_VALUE_PREFIX + Constants.DEFAULT_KEY)){
             getExtensionClasses();
             for (Map.Entry<String, Activate> entry : cachedActivates.entrySet()){

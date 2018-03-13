@@ -105,7 +105,7 @@ public class ApplicationConfig extends AbstractConfig {
         checkName("environment", environment);
         if (!Objects.isNull(environment)){
             if (!("develop".equals(environment) || "test".equals(environment) || "product".equals(environment))){
-                throw new IllegalStateException("Unsupported enviroment: " + environment + ", only support develop/test/product, default is product.");
+                throw new IllegalStateException("Unsupported enviroment: " + environment + ", only support develop/test/product, mandal is product.");
             }
         }
         this.environment = environment;

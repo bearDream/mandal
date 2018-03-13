@@ -3,18 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cn.ching</groupId>
-        <artifactId>mandal-parent</artifactId>
+        <artifactId>mandal-monitor</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>cn.ching</groupId>
-    <artifactId>mandal-monitor</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>mandal-monitor-default</artifactId>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>mandal-monitor-api</module>
-        <module>mandal-monitor-default</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-monitor-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
     
 </project>

@@ -45,7 +45,7 @@ public class ConfigUtils {
     }
 
     public static boolean isDefault(String val) {
-        return "true".equalsIgnoreCase(val) || "default".equalsIgnoreCase(val);
+        return "true".equalsIgnoreCase(val) || "mandal".equalsIgnoreCase(val);
     }
 
     public static String getProperty(String key) {

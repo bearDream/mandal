@@ -75,7 +75,7 @@ public final class Version {
                 // guess version fro jar file name if nothing's found from MANIFEST.MF
                 CodeSource codeSource = cls.getProtectionDomain().getCodeSource();
                 if (codeSource == null) {
-                    logger.info("No codeSource for class " + cls.getName() + " when getVersion, use default version " + defaultVersion);
+                    logger.info("No codeSource for class " + cls.getName() + " when getVersion, use mandal version " + defaultVersion);
                 } else {
                     String file = codeSource.getLocation().getFile();
                     if (file != null && file.length() > 0 && file.endsWith(".jar")) {
@@ -100,11 +100,11 @@ public final class Version {
                     }
                 }
             }
-            // return default version if no version info is found
+            // return mandal version if no version info is found
             return version == null || version.length() == 0 ? defaultVersion : version;
         } catch (Throwable e) {
-            // return default version when any exception is thrown
-            logger.error("return default version, ignore exception " + e.getMessage(), e);
+            // return mandal version when any exception is thrown
+            logger.error("return mandal version, ignore exception " + e.getMessage(), e);
             return defaultVersion;
         }
     }

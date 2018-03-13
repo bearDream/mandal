@@ -121,7 +121,7 @@ public class Constants {
 
     public static final int DEFAULT_RETRIES = 2;
 
-    // default buffer size is 8k.
+    // mandal buffer size is 8k.
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
     public static final int MAX_BUFFER_SIZE = 16 * 1024;
@@ -132,9 +132,9 @@ public class Constants {
 
     public static final String HIDE_KEY_PREFIX = ".";
 
-    public static final String DEFAULT_KEY_PREFIX = "default.";
+    public static final String DEFAULT_KEY_PREFIX = "mandal.";
 
-    public static final String DEFAULT_KEY = "default";
+    public static final String DEFAULT_KEY = "mandal";
 
     public static final String LOADBALANCE_KEY = "loadbalance";
 
@@ -325,7 +325,7 @@ public class Constants {
 
     public static final String CHANNEL_HANDLER_KEY = "channel.handler";
 
-    public static final String DEFAULT_CHANNEL_HANDLER = "default";
+    public static final String DEFAULT_CHANNEL_HANDLER = "mandal";
 
     public static final String ANY_VALUE = "*";
 
@@ -396,7 +396,7 @@ public class Constants {
     public static final String CLUSTER_AVAILABLE_CHECK_KEY = "cluster.availablecheck";
 
     /**
-     * The default value of cluster.availablecheck
+     * The mandal value of cluster.availablecheck
      *
      * @see #CLUSTER_AVAILABLE_CHECK_KEY
      */
@@ -408,7 +408,7 @@ public class Constants {
     public static final String CLUSTER_STICKY_KEY = "sticky";
 
     /**
-     * The default value of sticky
+     * The mandal value of sticky
      *
      * @see #CLUSTER_STICKY_KEY
      */
@@ -425,14 +425,14 @@ public class Constants {
     public static final String LAZY_CONNECT_INITIAL_STATE_KEY = "connect.lazy.initial.state";
 
     /**
-     * The default value of lazy connection's initial state: true
+     * The mandal value of lazy connection's initial state: true
      *
      * @see #LAZY_CONNECT_INITIAL_STATE_KEY
      */
     public static final boolean DEFAULT_LAZY_CONNECT_INITIAL_STATE = true;
 
     /**
-     * To decide whether register center saves file synchronously, the default value is asynchronously
+     * To decide whether register center saves file synchronously, the mandal value is asynchronously
      */
     public static final String REGISTRY_FILESAVE_SYNC_KEY = "save.file";
 
@@ -478,7 +478,7 @@ public class Constants {
     public static final String CALLBACK_INSTANCES_LIMIT_KEY = "callbacks";
 
     /**
-     * The default limit number for callback services instances
+     * The mandal limit number for callback services instances
      *
      * @see #CALLBACK_INSTANCES_LIMIT_KEY
      */
