@@ -1,0 +1,1 @@
+kryo=cn.ching.mandal.common.serialize.support.kryo.KryoSerialization

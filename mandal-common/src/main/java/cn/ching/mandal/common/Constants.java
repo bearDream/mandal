@@ -97,7 +97,7 @@ public class Constants {
 
     public static final int DEFAULT_FORKS = 2;
 
-    public static final String DEFAULT_THREAD_NAME = "Dubbo";
+    public static final String DEFAULT_THREAD_NAME = "Mandal";
 
     public static final int DEFAULT_CORE_THREADS = 0;
 

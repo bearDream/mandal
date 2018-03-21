@@ -5,7 +5,6 @@ import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.compiler.Compiler;
 import cn.ching.mandal.common.extension.support.ActivateComparator;
 import cn.ching.mandal.common.logger.Logger;
-import cn.ching.mandal.common.logger.LoggerAdapter;
 import cn.ching.mandal.common.logger.LoggerFactory;
 import cn.ching.mandal.common.utils.ClassHolder;
 import cn.ching.mandal.common.utils.ConcurrentHashSet;
@@ -14,7 +13,6 @@ import cn.ching.mandal.common.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -854,5 +852,30 @@ public class ExtensionLoader<T> {
             throw new IllegalStateException("No such extension " + name + " for " + type.getName() + ".");
         }
         return clazz;
+    }
+
+    /**
+     * return the list of extensions which already loaded.
+     * @return
+     */
+    public Set<String> getLoadedExtension() {
+        return Collections.unmodifiableSet(new TreeSet<String>(cachedInstances.keySet()));
+    }
+
+    /**
+     * return extension instance by name.
+     * @param name
+     * @return
+     */
+    public T getLoadedExtension(String name){
+        if (StringUtils.isEmpty(name)){
+            throw new IllegalArgumentException("Extension name is null.");
+        }
+        ClassHolder<Object> holder = cachedInstances.get(name);
+        if (Objects.isNull(holder)){
+            cachedInstances.putIfAbsent(name, new ClassHolder<>());
+            holder = cachedInstances.get(name);
+        }
+        return (T) holder.get();
     }
 }
