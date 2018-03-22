@@ -2,6 +2,7 @@ package cn.ching.mandal.config;
 
 import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.extension.ExtensionLoader;
+import cn.ching.mandal.common.serialize.Serialization;
 import cn.ching.mandal.common.threadpool.ThreadPool;
 import cn.ching.mandal.common.utils.StringUtils;
 import cn.ching.mandal.config.support.Parameter;
@@ -192,7 +193,7 @@ public class ProtocolConfig extends AbstractConfig {
 
     public void setSerialization(String serialization) {
         if (Constants.DEFAULT_KEY.equals(name)){
-            checkMultiExtension(serialization);
+            checkMultiExtension(Serialization.class, "serialization", serialization);
         }
         this.serialization = serialization;
     }

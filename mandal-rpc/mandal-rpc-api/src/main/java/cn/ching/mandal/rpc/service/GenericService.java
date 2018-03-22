@@ -2,7 +2,7 @@ package cn.ching.mandal.rpc.service;
 
 /**
  * 2018/1/15
- *
+ * Generic invocation
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
