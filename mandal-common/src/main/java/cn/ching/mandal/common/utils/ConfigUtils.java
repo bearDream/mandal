@@ -197,4 +197,17 @@ public class ConfigUtils {
         }
         return PID;
     }
+
+    /**
+     * System envirment --> System Properties
+     * @param key
+     * @return
+     */
+    public static String getSystemProperty(String key) {
+        String value = System.getenv(key);
+        if (StringUtils.isEmpty(value)){
+            value = System.getProperty(key);
+        }
+        return value;
+    }
 }

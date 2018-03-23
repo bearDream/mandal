@@ -33,8 +33,8 @@ public final class Version {
 
     private static final Logger logger = LoggerFactory.getLogger(Version.class);
     private static final String VERSION = getVersion(Version.class, "0.0.1");
-    private static final boolean INTERNAL = hasResource("com/alibaba/dubbo/registry/internal/RemoteRegistry.class");
-    private static final boolean COMPATIBLE = hasResource("com/taobao/remoting/impl/ConnectionRequest.class");
+//    private static final boolean INTERNAL = hasResource("com/alibaba/dubbo/registry/internal/RemoteRegistry.class");
+//    private static final boolean COMPATIBLE = hasResource("com/taobao/remoting/impl/ConnectionRequest.class");
 
     static {
         // check if there's duplicated jar
@@ -48,13 +48,13 @@ public final class Version {
         return VERSION;
     }
 
-    public static boolean isInternalVersion() {
-        return INTERNAL;
-    }
-
-    public static boolean isCompatibleVersion() {
-        return COMPATIBLE;
-    }
+//    public static boolean isInternalVersion() {
+//        return INTERNAL;
+//    }
+//
+//    public static boolean isCompatibleVersion() {
+//        return COMPATIBLE;
+//    }
 
     private static boolean hasResource(String path) {
         try {

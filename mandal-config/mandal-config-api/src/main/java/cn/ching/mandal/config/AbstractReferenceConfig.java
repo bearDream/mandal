@@ -63,6 +63,10 @@ public abstract class AbstractReferenceConfig extends AbstractInterfaceConfig {
         }
     }
 
+    public void setGeneric(String generic) {
+        this.generic = generic.toString();
+    }
+
     @Parameter(key = Constants.REFERENCE_FILTER_KEY, append = true)
     @Override
     public String getFilter() {
