@@ -24,5 +24,10 @@
             <artifactId>mandal-monitor-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-rpc-injvm</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 </project>

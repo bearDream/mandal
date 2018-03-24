@@ -46,7 +46,7 @@ public interface Protocol {
      * @param <T>  remote service type
      * @return remote service local proxy
      */
-    <T> Invoker<T> refer(Class<T> type, URL url);
+    <T> Invoker<T> refer(Class<?> type, URL url);
 
     /**
      * destroy protocol

@@ -16,7 +16,6 @@ public interface ProxyFactory {
 
     /**
      * create proxy
-     * @param invoker
      * @param <T>
      * @return
      * @throws RpcException

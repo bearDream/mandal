@@ -12,11 +12,17 @@ import cn.ching.mandal.common.utils.StringUtils;
 import cn.ching.mandal.config.annoatation.Reference;
 import cn.ching.mandal.config.model.ApplicationModel;
 import cn.ching.mandal.config.model.ConsumerModel;
+import cn.ching.mandal.config.model.ProviderModel;
+import cn.ching.mandal.config.support.Parameter;
 import cn.ching.mandal.rpc.Invoker;
 import cn.ching.mandal.rpc.Protocol;
 import cn.ching.mandal.rpc.ProxyFactory;
 import cn.ching.mandal.rpc.StaticContext;
 import cn.ching.mandal.rpc.cluster.Cluster;
+import cn.ching.mandal.rpc.cluster.directory.StaticDirectory;
+import cn.ching.mandal.rpc.cluster.support.AvailableCluster;
+import cn.ching.mandal.rpc.cluster.support.ClusterUtils;
+import cn.ching.mandal.rpc.injvm.InjvmProtocol;
 import cn.ching.mandal.rpc.service.GenericService;
 import cn.ching.mandal.rpc.support.ProtocolUtils;
 import lombok.Getter;
@@ -24,7 +30,6 @@ import lombok.Setter;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -38,7 +43,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
 
     private static final long serialVersionUID = 6846610815421107297L;
 
-    private static final Protocol reprotocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
+    private static final Protocol refprotocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
 
     private static final Cluster cluster = ExtensionLoader.getExtensionLoader(Cluster.class).getAdaptiveExtension();
 
@@ -257,8 +262,99 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         ref = createProxy(map);
         ConsumerModel consumerModel = new ConsumerModel();
         ApplicationModel.initConsumerModel(getUniqueServiceName(), consumerModel);
+    }
 
+    private T createProxy(Map<String, String> map) {
+        URL tempUrl = new URL("temp", "localhost", 0, map);
+        final boolean isJvmRefer;
+        // if scope == local, as the service a jvm.
+        if (getScopes() == null){
+            if (!StringUtils.isEmpty(url)){
+                isJvmRefer = false;
+            }else if (InjvmProtocol.getInjvmProtocol().isInjvmRefer(tempUrl )){
+                isJvmRefer = true;
+            }else {
+                isJvmRefer = false;
+            }
+        }else {
+            isJvmRefer = getScopes().equals(Constants.LOCAL_KEY);
+        }
 
+        if (isJvmRefer){
+            URL url = new URL(Constants.LOCAL_PROTOCOL, NetUtils.LOCALHOST, 0, interfaceClass.getName()).addParameters(map);
+            invoker = refprotocol.refer(interfaceClass, url);
+            if (logger.isInfoEnabled()){
+                logger.info("mandal use local service: " + interfaceClass.getName());
+            }
+        }else {
+            if (!StringUtils.isEmpty(url)){ // use peer-to-peer address, or register center.
+                String[] us = Constants.SEMICOLON_SPLIT_PATTERN.split(url);
+                if (!Objects.isNull(us) && us.length > 0){
+                    for (String u : us) {
+                        URL url = URL.valueOf(u);
+                        if (StringUtils.isEmpty(url.getPath())){
+                            url.setPath(interfaceName);
+                        }
+                        if (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())){
+                            urls.add(url.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));
+                        }else {
+                            urls.add(ClusterUtils.mergeUrl(url, map));
+                        }
+                    }
+                }
+            }else {  // assembly URL from registry address.
+                List<URL> us = loadRegistries(false);
+                if (!CollectionUtils.isEmpty(us)){
+                    us.stream().forEach(url -> {
+                        URL monitorUrl = loadMonitor(url);
+                        if (Objects.isNull(monitorUrl)){
+                            map.put(Constants.MONITOR_KEY, URL.encode(monitorUrl.toFullString()));
+                        }
+                        urls.add(url.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));
+                    });
+                }
+                if (CollectionUtils.isEmpty(urls)){
+                    throw new IllegalStateException("No such registry reference: " + interfaceName + " on consumer " + NetUtils.getLocalHost() + " use mandal version: " + Version.getVersion() + ". please config mandal registry: <mandal:registry address=\"\" /> to your config file.");
+                }
+            }
+
+            if (urls.size() == 1){
+                invoker = refprotocol.refer(interfaceClass, urls.get(0));
+            }else {
+                List<Invoker<?>> invokers = new ArrayList<>();
+                URL registryUrl = null;
+                for (URL u : urls) {
+                    invokers.add(refprotocol.refer(interfaceClass, u));
+                    if (Constants.REGISTRY_PROTOCOL.equals(u.getProtocol())){
+                        registryUrl = u;
+                    }
+                }
+
+                if (!Objects.isNull(registryUrl)){
+                    // use AvailableCluster only when register's cluster is available
+                    URL u = registryUrl.addParameter(Constants.CLUSTER_KEY, AvailableCluster.NAME);
+                    invoker = cluster.join(new StaticDirectory(u, invokers));
+                }else {
+                    invoker = cluster.join(new StaticDirectory(invokers));
+                }
+            }
+        }
+
+        Boolean c = check;
+        if (Objects.isNull(c) && !Objects.isNull(consumer)){
+            c = consumer.getCheck();
+        }
+        if (Objects.isNull(c)){
+            c = true;
+        }
+        if (c && !invoker.isAvailable()){
+            throw new IllegalStateException("failed check the status of the service " + interfaceName + ". No provider available for thr service " + (group == null ? "" : group + "/") + interfaceName + (version == null ? "" : ":" + version) + " from the url " + invoker.getUrl() + " to the consumer " + NetUtils.getLocalHost() + " use mandal version " + Version.getVersion());
+        }
+        if (logger.isInfoEnabled()){
+            logger.info("ref mandal service " + interfaceClass.getName() + " from url:" + invoker.getUrl());
+        }
+
+        return (T) proxyFactory.getProxy(invoker);
     }
 
     private boolean isInvalidLocalHost(String hostToRegistry) {
@@ -270,4 +366,17 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
     private void checkDefault() {
     }
 
+
+    @Parameter(exclude = true)
+    public String getUniqueServiceName() {
+        StringBuffer str = new StringBuffer();
+        if (!StringUtils.isEmpty(group)){
+            str.append(group).append("/");
+        }
+        str.append(interfaceName);
+        if (!StringUtils.isEmpty(version)){
+            str.append(":").append(version);
+        }
+        return str.toString();
+    }
 }
