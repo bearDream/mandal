@@ -5,10 +5,8 @@ import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.Version;
 import cn.ching.mandal.common.bytecode.Wrapper;
 import cn.ching.mandal.common.extension.ExtensionLoader;
-import cn.ching.mandal.common.utils.CollectionUtils;
-import cn.ching.mandal.common.utils.ConfigUtils;
-import cn.ching.mandal.common.utils.NetUtils;
-import cn.ching.mandal.common.utils.StringUtils;
+import cn.ching.mandal.common.serialize.support.kryo.utils.ReflectionUtils;
+import cn.ching.mandal.common.utils.*;
 import cn.ching.mandal.config.annoatation.Reference;
 import cn.ching.mandal.config.model.ApplicationModel;
 import cn.ching.mandal.config.model.ConsumerModel;
@@ -64,10 +62,12 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
     @Getter
     @Setter
     private ConsumerConfig consumer;
+    @Getter
+    @Setter
     private String protocol;
     // interface proxy reference
     private transient volatile T ref;
-    private transient volatile Invoker<T> invoker;
+    private transient volatile Invoker<?> invoker;
     private transient volatile boolean initialized;
     private transient volatile boolean destroyed;
 
@@ -83,9 +83,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         }
     };
 
-    public ReferenceConfig(){
-
-    }
+    public ReferenceConfig(){}
 
     public ReferenceConfig(Reference reference){
         appendAnnotation(Reference.class, reference);
@@ -100,6 +98,24 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
             init();
         }
         return ref;
+    }
+
+    public synchronized void destroy(){
+        if (Objects.isNull(ref)){
+            return;
+        }
+        if (destroyed){
+            return;
+        }
+        destroyed = true;
+        try {
+            invoker.destroy();
+        }catch (Throwable t){
+            logger.warn("Unexpected error when destroy invoker of ReferenceConfig(" + url + ").", t);
+        }
+        invoker = null;
+        ref = null;
+
     }
 
     private void init() {
@@ -253,7 +269,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         String hostToRegistry = ConfigUtils.getSystemProperty(Constants.MANDAL_IP_TO_REGISTRY);
         if (StringUtils.isEmpty(hostToRegistry)){
             hostToRegistry = NetUtils.getLocalHost();
-        }else if (isInvalidLocalHost(hostToRegistry)){
+        }else if (NetUtils.isInvalidLocalHost(hostToRegistry)){
             throw new IllegalArgumentException("specified invalid registry ip from property:" + Constants.MANDAL_IP_TO_REGISTRY + ".value: " + hostToRegistry);
         }
         map.put(Constants.REGISTRY_KEY, hostToRegistry);
@@ -344,6 +360,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         if (Objects.isNull(c) && !Objects.isNull(consumer)){
             c = consumer.getCheck();
         }
+        // default true
         if (Objects.isNull(c)){
             c = true;
         }
@@ -357,13 +374,48 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         return (T) proxyFactory.getProxy(invoker);
     }
 
-    private boolean isInvalidLocalHost(String hostToRegistry) {
+    private void checkAndConvertImplicitConfig(MethodConfig method, Map<String, String> map, Map<Object, Object> attributes) {
+        // check config conflict
+        if (Boolean.FALSE.equals(method.isReturn()) && (method.getOnreturn() != null || method.getOnthrow() != null)){
+            throw new IllegalStateException("method config error: return attribute must be set true when onreturn or onthrow has been setted.");
+        }
+
+        // convert onreturn methodName to Method.
+        String onReturnMethodKey = StaticContext.getKey(map, method.getName(), Constants.ON_RETURN_METHOD_KEY);
+        Object onReturnMethod = attributes.get(onReturnMethodKey);
+        if (!Objects.isNull(onReturnMethod) && onReturnMethod instanceof String) {
+            attributes.put(onReturnMethodKey, getMethodByName(method.getOnreturn().getClass(), onReturnMethod.toString()));
+        }
+
+        // convert onthrow methodName to Method.
+        String onThrowMethodKey = StaticContext.getKey(map, method.getName(), Constants.ON_THROW_METHOD_KEY);
+        Object onThrowMethod = attributes.get(onThrowMethodKey);
+        if (!Objects.isNull(onThrowMethod) && onThrowMethod instanceof String){
+            attributes.put(onThrowMethodKey, getMethodByName(method.getOnthrow().getClass(), onThrowMethod.toString()));
+        }
+
+        // convert oninvoke methodName to Method.
+        String onInvokeMethodKey = StaticContext.getKey(map, method.getName(), Constants.ON_INVOKE_METHOD_KEY);
+        Object onInvokeMethod = attributes.get(onInvokeMethodKey);
+        if (!Objects.isNull(onInvokeMethod) && onInvokeMethod instanceof String){
+            attributes.put(onInvokeMethodKey, getMethodByName(method.getOninvoke().getClass(), onInvokeMethod.toString()));
+        }
     }
 
-    private void checkAndConvertImplicitConfig(MethodConfig method, Map<String, String> map, Map<Object, Object> attributes) {
+    private Object getMethodByName(Class<?> clazz, String methodName) {
+
+        try {
+            return ReflectUtils.findMethodByMethodName(clazz, methodName);
+        }catch (Exception e){
+            throw new IllegalStateException(e.getMessage(), e);
+        }
     }
 
     private void checkDefault() {
+        if (Objects.isNull(consumer)){
+            consumer = new ConsumerConfig();
+        }
+        appendProperties(consumer);
     }
 
 
@@ -378,5 +430,67 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
             str.append(":").append(version);
         }
         return str.toString();
+    }
+
+    public Class<?> getInterfaceClass() {
+        if (Objects.isNull(interfaceClass)){
+            return interfaceClass;
+        }
+        if (isGeneric() || (getConsumer() != null && getConsumer().isGeneric())){
+            return GenericService.class;
+        }
+        try {
+            if (!Objects.isNull(interfaceName) && interfaceName.length() > 0){
+                this.interfaceClass = Class.forName(interfaceName, true, Thread.currentThread().getContextClassLoader());
+            }
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
+        return interfaceClass;
+    }
+
+    public String getInterface(){
+        return interfaceName;
+    }
+
+    public void setInterface(Class<?> interfaceClass){
+        if (!Objects.isNull(interfaceClass) && !interfaceClass.isInterface()){
+            throw new IllegalStateException("The interface class: " + interfaceClass.getName() + " not interface!");
+        }
+        this.interfaceClass = interfaceClass;
+        setInterface(Objects.isNull(interfaceClass) ? (String) null : interfaceClass.getName());
+    }
+
+    public void setInterface(String interfaceName){
+        this.interfaceName = interfaceName;
+        if (StringUtils.isEmpty(id)){
+            id = interfaceName;
+        }
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        checkName("client", client);
+        this.client = client;
+    }
+
+    @Parameter(exclude = true)
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<MethodConfig> getMethods() {
+        return methods;
+    }
+
+    public void setMethods(List<? extends MethodConfig> methods) {
+        this.methods = (List<MethodConfig>) methods;
     }
 }
