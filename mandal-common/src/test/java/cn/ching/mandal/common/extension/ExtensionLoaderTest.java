@@ -17,9 +17,9 @@ public class ExtensionLoaderTest{
 
 
     @Test
-    public static void getExtensionLoader() throws Exception {
+    public void getExtensionLoader() throws Exception {
         try {
-            ExtensionLoader.getExtensionLoader(Compiler.class).getExtension("jdk");
+            Compiler compiler = ExtensionLoader.getExtensionLoader(Compiler.class).getExtension("jdk");
         }catch (IllegalStateException e){
             System.err.println(e);
         }
