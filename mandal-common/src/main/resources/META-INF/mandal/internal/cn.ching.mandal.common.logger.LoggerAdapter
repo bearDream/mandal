@@ -1,0 +1,4 @@
+jcl=cn.ching.mandal.common.logger.jcl.JclLoggerAdapter
+jdk=ching.mandal.common.logger.jdk.JdkLoggerAdapter
+log4j=ching.mandal.common.logger.log4j.Log4jLoggerAdapter
+slf4=ching.mandal.common.logger.slf4.Slf4jLoggerAdapter

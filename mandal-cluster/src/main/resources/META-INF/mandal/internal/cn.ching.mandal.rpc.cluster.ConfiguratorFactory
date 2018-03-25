@@ -1,0 +1,2 @@
+override=cn.ching.mandal.rpc.cluster.configurator.override.OverrideConfiguratorFactory
+absent=cn.ching.mandal.rpc.cluster.configurator.absent.AbsentConfiguratorFactory
