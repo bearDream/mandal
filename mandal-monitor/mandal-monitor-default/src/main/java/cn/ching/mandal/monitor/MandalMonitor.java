@@ -1,4 +1,4 @@
-package cn.ching.mandal.monitor.mandal;
+package cn.ching.mandal.monitor;
 
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.monitor.api.Monitor;

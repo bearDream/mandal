@@ -5,7 +5,6 @@ import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.utils.ConcurrentHashSet;
 import cn.ching.mandal.registry.integration.RegistryDirectory;
 import cn.ching.mandal.rpc.Invoker;
-import sun.jvm.hotspot.compiler.OopMapValue;
 
 import java.util.Objects;
 import java.util.Set;

@@ -1,0 +1,2 @@
+log=cn.ching.mandal.rpc.filter.LogFilter
+token=cn.ching.mandal.rpc.filter.LogFilter.token

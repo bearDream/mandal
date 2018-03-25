@@ -1,1 +1,3 @@
 filter=cn.ching.mandal.rpc.protocol.ProtocolFilterChain
+listener=cn.ching.mandal.rpc.protocol.ProtocolListenerWrapper
+mock=cn.ching.mandal.rpc.support.MockProtocol
