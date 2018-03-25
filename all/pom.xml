@@ -184,6 +184,23 @@
                                 </includes>
                             </artifactSet>
                             <transformers>
+                                <!-- cluster module -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.Cluster</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.ConfiguratorFactory</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.LoadBalance</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.Merger</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.RouterFactory</resource>
+                                </transformer>
+
                                 <!-- common module -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/mandal/internal/cn.ching.mandal.common.compiler.Compiler</resource>
@@ -208,28 +225,48 @@
                                 </transformer>
 
                                 <!-- cluster module -->
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.Cluster</resource>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.ConfiguratorFactory</resource>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.LoadBalance</resource>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.Merger</resource>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.RouterFactory</resource>
-                                </transformer>
 
+                                <!-- container module-->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/mandal/internal/cn.ching.mandal.container.Container</resource>
                                 </transformer>
+
+                                <!-- monitor module -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/mandal/internal/cn.ching.mandal.registry.integration.RegistryProtocol</resource>
                                 </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.monitor.api.MonitorFactory</resource>
+                                </transformer>
+
+                                <!-- registry module -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.registry.integration.RegistryProtocol</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.registry.RegistryFactory</resource>
+                                </transformer>
+
+
+                                <!-- remoting module -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.remoting.zookeeper.ZookeeperTransporter</resource>
+                                </transformer>
+
+                                <!-- rpc module -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.Filter</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.Protocol</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.ProxyFactory</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.InvokerListener</resource>
+                                </transformer>
+
                             </transformers>
 
                         </configuration>
