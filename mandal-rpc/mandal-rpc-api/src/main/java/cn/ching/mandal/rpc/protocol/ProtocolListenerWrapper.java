@@ -8,11 +8,13 @@ import cn.ching.mandal.rpc.RpcException;
 
 /**
  * 2018/3/25
- * todo
+ * todo (not must)
+ * Protocol --> ProtocolListenerWrapper --> ListenerInvokerWrapper / ListenerExporterWrapper /  --> InvokerListener / ExporterListener
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
 public class ProtocolListenerWrapper implements Protocol {
+
     @Override
     public int getDefaultPort() {
         return 0;

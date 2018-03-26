@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 2018/1/15
- *
+ * cluster invoker
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */

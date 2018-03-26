@@ -14,11 +14,11 @@ import java.util.Objects;
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
-public class ProtocolFilterChain implements Protocol{
+public class ProtocolFilterWrapper implements Protocol{
 
     private final Protocol protocol;
 
-    public ProtocolFilterChain(Protocol protocol){
+    public ProtocolFilterWrapper(Protocol protocol){
         if (Objects.isNull(protocol)){
             throw new IllegalArgumentException("Error: protocol is null");
         }

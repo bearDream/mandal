@@ -4,7 +4,7 @@ import cn.ching.mandal.common.Node;
 
 /**
  * 2018/1/5
- *
+ * AbstractClusterInvoker(客户端集群Invoker)  -->  AbstractInvoker(客户端Invoker)  -->  AbstractProxyInvoker(反射执行方法)
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
