@@ -4,6 +4,7 @@ import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.NamedThreadFactory;
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.concurrent.ListenableFuture;
+import cn.ching.mandal.common.concurrent.ListenableFutureTask;
 import cn.ching.mandal.common.logger.Logger;
 import cn.ching.mandal.common.logger.LoggerFactory;
 import cn.ching.mandal.monitor.api.Monitor;
@@ -19,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 2018/3/13
- * todo
+ *
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
@@ -61,11 +62,61 @@ public abstract class AbstractMonitorFactory implements MonitorFactory{
             }
 
             final URL monitorUrl = url;
+            final ListenableFutureTask<Monitor> listenableFutureTask = ListenableFutureTask.create(new MonitorCreator(monitorUrl));
+            listenableFutureTask.addListener(new MonitorListener(key));
+            executor.execute(listenableFutureTask);
+            FUTURES.put(key, listenableFutureTask);
 
+            return null;
         }finally {
             LOCK.unlock();
         }
+    }
 
-        return monitor;
+    protected abstract Monitor createMonitor(URL url);
+
+    /**
+     * Monitor Creator.
+     */
+    class MonitorCreator implements Callable<Monitor> {
+
+        private URL url;
+
+        public MonitorCreator(URL url) {
+            this.url = url;
+        }
+
+        @Override
+        public Monitor call() throws Exception {
+            Monitor monitor = AbstractMonitorFactory.this.createMonitor(url);
+            return monitor;
+        }
+    }
+
+    /**
+     * Monitor Listener.
+     */
+    class MonitorListener implements Runnable {
+
+        private String key;
+
+        public MonitorListener(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public void run() {
+            try {
+                System.out.println("run it");
+                ListenableFuture<Monitor> listenableFuture = AbstractMonitorFactory.FUTURES.get(key);
+                AbstractMonitorFactory.MONITORS.put(key, listenableFuture.get());
+                AbstractMonitorFactory.FUTURES.remove(key);
+            } catch (InterruptedException e) {
+                logger.warn("Thread was interrupted unexpectedly, monitor will never get.");
+                AbstractMonitorFactory.FUTURES.remove(key);
+            } catch (ExecutionException e) {
+                logger.warn("Create monitor failed. monitor data will not be collect until you fix the problem.", e);
+            }
+        }
     }
 }

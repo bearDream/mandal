@@ -37,8 +37,9 @@ public final class ExecutionList {
         if (Objects.isNull(runnable)){
             throw new NullPointerException("Runable can not be null");
         }
-        if (Objects.isNull(executed)){
+        if (Objects.isNull(executor)){
             logger.info("Executor for listenableFuture is null, will use mandal executor.");
+            executor = DEFAULT_EXECUTOR;
         }
 
         synchronized (this){
