@@ -14,7 +14,7 @@ import java.util.Objects;
 
 /**
  * 2018/3/13
- * todo
+ * Mandal monitor Factory.
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
