@@ -12,6 +12,8 @@ import cn.ching.mandal.rpc.Exporter;
 import cn.ching.mandal.rpc.Protocol;
 import cn.ching.mandal.rpc.ProxyFactory;
 import cn.ching.mandal.rpc.service.GenericService;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -47,6 +49,8 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
     private String path;
     // method config
     private List<MethodConfig> methods;
+    @Getter
+    @Setter
     private ProviderConfig provider;
     private transient volatile boolean exported;
 
@@ -91,6 +95,27 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
     @Parameter(exclude = true)
     public boolean isUnexported() {
         return unexported;
+    }
+
+    public String getInterface() {
+        return interfaceName;
+    }
+
+    @Parameter(exclude = true)
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        checkPathName("path", path);
+        this.path = path;
+    }
+
+    public void setInterface(String interfaceName) {
+        this.interfaceName = interfaceName;
+        if (Objects.isNull(id) || id.length() == 0){
+            id = interfaceName;
+        }
     }
 
     public synchronized void export(){
@@ -218,7 +243,9 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
         doExportUrls();
     }
 
+    //todo
     private void doExportUrls() {
+
     }
 
     public Class<?> getInterfaceClass(){
@@ -243,6 +270,25 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
             provider = new ProviderConfig();
         }
         appendProperties(provider);
+    }
+
+    public synchronized void unexport(){
+        if (!export){
+            return;
+        }
+        if (unexported){
+            return;
+        }
+        if (!CollectionUtils.isEmpty(exporters)){
+            for (Exporter<?> exporter : exporters) {
+                try {
+                    exporter.unexport();
+                }catch (Throwable t){
+                    logger.warn("Unexported error when unexport " + exporter, t);
+                }
+            }
+        }
+        unexported = true;
     }
 
     protected void checkRef(){

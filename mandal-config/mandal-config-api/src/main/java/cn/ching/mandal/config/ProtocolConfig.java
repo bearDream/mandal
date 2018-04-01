@@ -105,6 +105,8 @@ public class ProtocolConfig extends AbstractConfig {
 
     private Map<String, String> parameters;
 
+    @Getter
+    @Setter
     private Boolean isDefault;
 
     private static final AtomicBoolean destroyed = new AtomicBoolean(false);

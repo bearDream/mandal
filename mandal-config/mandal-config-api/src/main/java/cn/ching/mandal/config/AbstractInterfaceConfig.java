@@ -368,6 +368,10 @@ public class AbstractInterfaceConfig extends AbstractMethodConfig {
         this.monitor = new MonitorConfig(monitor);
     }
 
+    public void setMonitor(MonitorConfig monitor){
+        this.monitor = monitor;
+    }
+
     public void setOwner(String owner) {
         checkMultiName("owner", owner);
         this.owner = owner;
