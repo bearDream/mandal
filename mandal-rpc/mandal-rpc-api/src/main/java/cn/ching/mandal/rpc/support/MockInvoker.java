@@ -186,18 +186,22 @@ public final class MockInvoker<T> implements Invoker<T> {
         return mock;
     }
 
+    @Override
     public URL getUrl() {
         return this.url;
     }
 
+    @Override
     public boolean isAvailable() {
         return true;
     }
 
+    @Override
     public void destroy() {
         //do nothing
     }
 
+    @Override
     public Class<T> getInterface() {
         //FIXME
         return null;
