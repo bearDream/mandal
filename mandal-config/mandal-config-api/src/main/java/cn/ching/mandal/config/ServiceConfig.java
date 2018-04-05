@@ -1,20 +1,23 @@
 package cn.ching.mandal.config;
 
+import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.NamedThreadFactory;
 import cn.ching.mandal.common.URL;
+import cn.ching.mandal.common.Version;
+import cn.ching.mandal.common.bytecode.Wrapper;
 import cn.ching.mandal.common.extension.ExtensionLoader;
-import cn.ching.mandal.common.utils.ClassHelper;
-import cn.ching.mandal.common.utils.CollectionUtils;
-import cn.ching.mandal.common.utils.StringUtils;
+import cn.ching.mandal.common.utils.*;
 import cn.ching.mandal.config.annoatation.Service;
+import cn.ching.mandal.config.invoker.DelegateProviderMetaDataInvoker;
 import cn.ching.mandal.config.support.Parameter;
-import cn.ching.mandal.rpc.Exporter;
-import cn.ching.mandal.rpc.Protocol;
-import cn.ching.mandal.rpc.ProxyFactory;
+import cn.ching.mandal.rpc.*;
+import cn.ching.mandal.rpc.cluster.ConfiguratorFactory;
 import cn.ching.mandal.rpc.service.GenericService;
+import cn.ching.mandal.rpc.support.ProtocolUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -243,9 +246,197 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
         doExportUrls();
     }
 
-    //todo
     private void doExportUrls() {
+        List<URL> registriesURLs = loadRegistries(true);
+        for (ProtocolConfig protocolConfig : protocols) {
+            doExportUrlsFor1Protocol(protocolConfig, registriesURLs);
+        }
+    }
 
+    private void doExportUrlsFor1Protocol(ProtocolConfig protocolConfig, List<URL> registryUrls){
+        String serviceName = protocolConfig.getName();
+        if (StringUtils.isEmpty(serviceName)){
+            serviceName = "mandal";
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put(Constants.SIDE_KEY, Constants.PROVIDER_SIDE);
+        map.put(Constants.MANDAL_VERSION_KEY, Version.getVersion());
+        map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis()));
+        if (ConfigUtils.getPID() > 0){
+            map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPID()));
+        }
+        appendParameters(map, application);
+        appendParameters(map, module);
+        appendParameters(map, provider, Constants.DEFAULT_KEY);
+        appendParameters(map, protocolConfig);
+        appendParameters(map, this);
+
+        if (CollectionUtils.isEmpty(methods)){
+            for (MethodConfig method : methods) {
+                appendParameters(map, method, method.getName());
+                String retryKey = method.getName() + ".retry";
+                if (map.containsKey(retryKey)){
+                    String retryValue = map.remove(retryKey);
+                    if ("false".equalsIgnoreCase(retryValue)){
+                        map.put(method.getName() + ".retries", 0);
+                    }
+                }
+
+                List<ArgumentConfig> argumentConfigs = method.getArguments();
+                if (!CollectionUtils.isEmpty(argumentConfigs)){
+                    for (ArgumentConfig argumentConfig : argumentConfigs) {
+                        if (!StringUtils.isEmpty(argumentConfig.getType())){
+                            Method[] methods = interfaceClass.getMethods();
+                            if (methods != null && methods.length > 0){
+                                for (int i = 0; i < methods.length; i++) {
+                                    String methodName = methods[i].getName();
+
+                                    if (methodName.equals(method.getName())){
+                                        Class<?>[] argTypes = methods[i].getParameterTypes();
+
+                                        // one call back in the method.
+                                        if (argumentConfig.getIndex() != -1){
+                                            if (argTypes[argumentConfig.getIndex()].getName().equals(argumentConfig.getType())){
+                                                appendParameters(map, argumentConfig, method.getName() + "." + argumentConfig.getIndex());
+                                            }else {
+                                                throw new IllegalArgumentException("argument config error: the index attribute and type attribute not match :index : " + argumentConfig.getIndex() + " :type:" + argumentConfig.getType());
+                                            }
+                                        }else {
+                                            // multiple call back in the method.
+                                            for (int j = 0; j < argTypes.length; j++) {
+                                                Class<?> argClazz = argTypes[j];
+                                                if (argClazz.getName().equals(argumentConfig.getType())){
+                                                    appendParameters(map, argumentConfig, method.getName() + "." + j);
+                                                    if (argumentConfig.getIndex() != -1 && argumentConfig.getIndex() != j){
+                                                        throw new IllegalArgumentException("argument config error. the index attribute and type attribute not match :index : " + argumentConfig.getIndex() + ", type" + argumentConfig.getType());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }else if (argumentConfig.getIndex() != -1){
+                            appendParameters(map, argumentConfig, method.getName() + "." + argumentConfig.getIndex());
+                        }else {
+                            throw new IllegalArgumentException("argument must set index or type attribute. like: <mandal:argument index='0' ... /> or <mandal:argument type='xxx' ... />");
+                        }
+                    }
+                }
+
+            }
+        }
+
+        if (ProtocolUtils.isGeneric(generic)){
+            map.put(Constants.GENERIC_KEY, generic);
+            map.put(Constants.METHODS_KEY, Constants.ANY_VALUE);
+        }else {
+            String revision = Version.getVersion(interfaceClass, version);
+            if (!StringUtils.isEmpty(revision)){
+                map.put("revision", revision);
+            }
+
+            String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames();
+            if (methods.length == 0){
+                logger.warn("No methods found in interface: " + interfaceClass.getName());
+                map.put(Constants.METHODS_KEY, Constants.ANY_VALUE);
+            }else {
+                map.put(Constants.METHODS_KEY, StringUtils.join(new HashSet<String>(Arrays.asList(methods)), ","));
+            }
+        }
+
+        if (!ConfigUtils.isEmpty(token)){
+            if (ConfigUtils.isDefault(token)){
+                map.put(Constants.TOKEN_KEY, UUID.randomUUID().toString());
+            }else {
+                map.put(Constants.TOKEN_KEY, token);
+            }
+        }
+
+        if ("injvm".equals(protocolConfig.getName())){
+            protocolConfig.setRegister(false);
+            map.put("notify", "false");
+        }
+        // export service
+        String contextPath = protocolConfig.getContextpath();
+        if (StringUtils.isEmpty(contextPath) && !Objects.isNull(provider)){
+            contextPath = provider.getContextPath();
+        }
+
+        String host = this.findConfigedHost(protocolConfig, registryUrls, map);
+        Integer port = this.findConfigedPort(protocolConfig, serviceName, map);
+        URL url = new URL(serviceName, host, port, (StringUtils.isEmpty(contextPath) ? "" : contextPath + "/") + path, serviceName);
+
+        if (ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class).hasExtension(url.getProtocol())){
+            url = ExtensionLoader
+                    .getExtensionLoader(ConfiguratorFactory.class)
+                    .getExtension(url.getProtocol())
+                    .getConfigurator(url)
+                    .configure(url);
+        }
+
+        String scope = url.getParameter(Constants.SCOPE_KEY);
+
+        // if config scope is none, then don't export.
+        if (!Constants.SCOPE_NONE.equalsIgnoreCase(scope)){
+
+            // if config scope is local, then export local.
+            if (Constants.SCOPE_LOCAL.equalsIgnoreCase(scope)){
+                exportLocal(url);
+            }
+
+            if (Constants.SCOPE_REMOTE.equalsIgnoreCase(scope)){
+                if (logger.isInfoEnabled()){
+                    logger.info("Export Mandal service: " + interfaceClass.getName() + " to url: " + url);
+                }
+                // multiple registryUrl.
+                if (!CollectionUtils.isEmpty(registryUrls)){
+                    for (URL registryUrl : registryUrls) {
+                        url = url.addParameterIfAbsent(Constants.DYNAMIC_KEY, registryUrl.getParameter(Constants.DYNAMIC_KEY));
+                        URL monitorUrl = loadMonitor(registryUrl);
+                        if (!Objects.isNull(monitorUrl)){
+                            url = url.addParameterAndEncoded(Constants.MONITOR_KEY, monitorUrl.toFullString());
+                        }
+
+                        if (logger.isInfoEnabled()){
+                            logger.info("Register Mandal service " + interfaceClass.getName() + " url " + url + " to registry " + registryUrl);
+                        }
+                        Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, registryUrl.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString()));
+                        DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
+
+                        Exporter<?> exporter = protocol.export(invoker);
+                        exporters.add(exporter);
+                    }
+                }else {
+                    // single registryUrl.
+                    Invoker<T> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, url);
+                    DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
+
+                    Exporter<?> exporter = protocol.export(invoker);
+                    exporters.add(exporter);
+                }
+            }
+        }
+        this.urls.add(url);
+    }
+
+    private void exportLocal(URL url) {
+        if (!Constants.LOCAL_PROTOCOL.equalsIgnoreCase(url.getProtocol())){
+            URL local = URL.valueOf(url.toFullString())
+                    .setProtocol(Constants.LOCAL_PROTOCOL)
+                    .setHost(NetUtils.LOCALHOST)
+                    .setPort(0);
+            ServiceClassHolder.getInstance().pushServiceClassHolder(getServiceClass(ref));
+
+            Exporter<?> exporter = protocol.export(proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, local));
+            exporters.add(exporter);
+            logger.info("Export Mandal service " + interfaceClass.getName() + " to local registry.");
+        }
+    }
+
+    private Class getServiceClass(T ref) {
+        return ref.getClass();
     }
 
     public Class<?> getInterfaceClass(){

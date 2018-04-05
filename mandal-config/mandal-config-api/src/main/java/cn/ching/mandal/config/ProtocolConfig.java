@@ -3,6 +3,7 @@ package cn.ching.mandal.config;
 import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.extension.ExtensionLoader;
 import cn.ching.mandal.common.serialize.Serialization;
+import cn.ching.mandal.common.status.StatusChecker;
 import cn.ching.mandal.common.threadpool.ThreadPool;
 import cn.ching.mandal.common.utils.StringUtils;
 import cn.ching.mandal.config.support.Parameter;
@@ -63,17 +64,27 @@ public class ProtocolConfig extends AbstractConfig {
     @Getter
     private String serialization;
 
+    @Getter
+    @Setter
     private String charset;
 
     // payload max length
+    @Getter
+    @Setter
     private Integer payload;
 
     // buffer size
+    @Getter
+    @Setter
     private Integer buffer;
 
     // heartbeat interval
+    @Getter
+    @Setter
     private Integer hearbeat;
 
+    @Getter
+    @Setter
     private String accesslog;
 
     private String transport;
@@ -87,22 +98,27 @@ public class ProtocolConfig extends AbstractConfig {
 
     private String server;
 
+    @Getter
     private String client;
-
-    // supported telnet command.
-    private String telnet;
 
     // command line prompt
     private String prompt;
 
     // status check.
+    @Getter
     private String status;
 
     // whether to register
+    @Getter
+    @Setter
     private Boolean register;
 
+    @Getter
+    @Setter
     private String extension;
 
+    @Getter
+    @Setter
     private Map<String, String> parameters;
 
     @Getter
@@ -199,4 +215,15 @@ public class ProtocolConfig extends AbstractConfig {
         }
         this.serialization = serialization;
     }
+
+    public void setStatus(String status) {
+        checkMultiExtension(StatusChecker.class, "status", status);
+        this.status = status;
+    }
+
+    @Parameter(escaped = true)
+    public String getPrompt() {
+        return prompt;
+    }
+
 }
