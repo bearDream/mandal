@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.lang.reflect.Method;
+import java.net.*;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -279,7 +280,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
                 if (map.containsKey(retryKey)){
                     String retryValue = map.remove(retryKey);
                     if ("false".equalsIgnoreCase(retryValue)){
-                        map.put(method.getName() + ".retries", 0);
+                        map.put(method.getName() + ".retries", "0");
                     }
                 }
 
@@ -419,6 +420,158 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
             }
         }
         this.urls.add(url);
+    }
+
+    /**
+     * configure bind Ip address for service provider, and Register.
+     * Configurator priority: environment variables -> java system properties -> host property in config file ->
+     * /etc/hosts -> default network address -> first available network address
+     * @param protocolConfig
+     * @param registryUrls
+     * @param map
+     * @return
+     */
+    private String findConfigedHost(ProtocolConfig protocolConfig, List<URL> registryUrls, Map<String, String> map) {
+        boolean anyhost = false;
+
+        // 1.environment variables
+        String hostToBind = getValueFromConfigurator(protocolConfig, Constants.MANDAL_IP_TO_BIND);
+        if (StringUtils.isEmpty(hostToBind) && NetUtils.isInvalidLocalHost(hostToBind)){
+            throw new IllegalArgumentException("Specified invalid bind ip from property " + Constants.MANDAL_IP_TO_BIND + ".value " + hostToBind);
+        }
+
+        if (StringUtils.isEmpty(hostToBind)){
+            // 2. java system properties
+            hostToBind = protocolConfig.getHost();
+            if (StringUtils.isEmpty(hostToBind) && !Objects.isNull(provider)){
+                // 3. host property in config file
+                hostToBind = provider.getHost();
+            }
+            if (NetUtils.isInvalidLocalHost(hostToBind)){
+                try {
+                    // 4. /etc/hosts
+                    hostToBind = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException e) {
+                    logger.warn(e.getMessage(), e);
+                }
+
+                if (NetUtils.isInvalidLocalHost(hostToBind)){
+                    // 5. default network address
+                    if (!CollectionUtils.isEmpty(registryUrls)){
+                        for (URL registryUrl : registryUrls) {
+                            try {
+                                Socket socket = new Socket();
+                                try {
+                                    SocketAddress add = new InetSocketAddress(registryUrl.getHost(), registryUrl.getPort());
+                                    socket.connect(add);
+                                    hostToBind = socket.getLocalAddress().getHostAddress();
+                                }finally {
+                                    try {
+                                        socket.close();
+                                    }catch (Exception e){
+
+                                    }
+                                }
+                            }catch (Exception e){
+                                logger.warn(e.getMessage(), e);
+                            }
+                        }
+                    }
+                    // 6. first available network address
+                    if (NetUtils.isInvalidLocalHost(hostToBind)){
+                        hostToBind = NetUtils.getLocalHost();
+                    }
+                }
+            }
+        }
+
+        map.put(Constants.BIND_IP_KEY, hostToBind);
+
+        // register.
+        String registryHost = getValueFromConfigurator(protocolConfig, Constants.MANDAL_IP_TO_REGISTRY);
+        if (StringUtils.isEmpty(registryHost) && NetUtils.isInvalidLocalHost(registryHost)){
+            throw new IllegalArgumentException("Specified invalid registry ip from property. " + Constants.MANDAL_IP_TO_REGISTRY + ".value" + registryHost);
+        }else if (StringUtils.isEmpty(registryHost)){
+            registryHost = hostToBind;
+        }
+
+        map.put(Constants.ANYHOST_KEY, registryHost);
+
+        return registryHost;
+    }
+
+    /**
+     * Register port and bind port to Provider. configured separately.
+     * Configuration priority: environment variable -> java system properties -> port property in protocol config file
+     * -> protocol default port
+     * @param protocolConfig
+     * @param serviceName
+     * @param map
+     * @return
+     */
+    private Integer findConfigedPort(ProtocolConfig protocolConfig, String serviceName, Map<String, String> map) {
+
+        Integer portToBind;
+
+        // 1. environment variable
+        String port = getValueFromConfigurator(protocolConfig, Constants.MANDAL_PORT_TO_BIND);
+        portToBind = parsePort(port);
+
+        if (Objects.isNull(portToBind)){
+            // 2. java system properties
+            portToBind = protocolConfig.getPort();
+            // 3. port property in protocol config file
+            if (!Objects.isNull(provider) && (portToBind == null || portToBind == 0)){
+                portToBind = provider.getPort();
+            }
+            final int defaultPort = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension(serviceName).getDefaultPort();
+            if (Objects.isNull(portToBind) || portToBind == 0){
+                portToBind = defaultPort;
+            }
+            if (Objects.isNull(portToBind) || portToBind <= 0){
+                portToBind = getRandomPort(serviceName);
+                if (Objects.isNull(portToBind) || portToBind <= 0){
+                    portToBind = NetUtils.getAvailablePort(defaultPort);
+                    putRandomPort(serviceName, portToBind);
+                }
+                logger.warn("Use random port. port: " + portToBind + " for protocol: " + serviceName);
+            }
+        }
+
+        map.put(Constants.BIND_PORT_KEY, String.valueOf(portToBind));
+
+        String portToRegistryStr = getValueFromConfigurator(protocolConfig, Constants.MANDAL_PORT_TO_BIND);
+        Integer portToRegistry = parsePort(portToRegistryStr);
+        if (Objects.isNull(portToRegistry)){
+            portToRegistry = portToBind;
+        }
+
+        return portToRegistry;
+    }
+
+    private Integer parsePort(String configPort) {
+        Integer port = null;
+        if (!StringUtils.isEmpty(configPort)){
+            try {
+                Integer initPort = Integer.parseInt(configPort);
+                if (NetUtils.isInvalidPort(initPort)){
+                    throw new IllegalArgumentException("Invalid port from env value: " + initPort);
+                }
+                return initPort;
+            }catch (Exception e){
+                throw new IllegalArgumentException("Invalid port from env value: " + configPort);
+            }
+        }
+        return port;
+    }
+
+    private String getValueFromConfigurator(ProtocolConfig protocolConfig, String key) {
+        String protocolPrefix = protocolConfig.getName() + "_";
+        String port = ConfigUtils.getSystemProperty(protocolPrefix + key);
+        if (StringUtils.isEmpty(port)){
+            port = ConfigUtils.getSystemProperty(key);
+        }
+        return port;
     }
 
     private void exportLocal(URL url) {
