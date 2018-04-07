@@ -87,6 +87,8 @@ public class ReferenceAnnotaionBeanPostProcessor extends InstantiationAwareBeanP
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
 
+        // todo
+        return null;
     }
 
     public Collection<ReferenceBean<?>> getReferenceBean() {
@@ -95,5 +97,7 @@ public class ReferenceAnnotaionBeanPostProcessor extends InstantiationAwareBeanP
 
     private InjectionMetadata findReferenceMetaData(String beanName, Class<?> beanType, Object o) {
 
+        // todo
+        return null;
     }
 }
