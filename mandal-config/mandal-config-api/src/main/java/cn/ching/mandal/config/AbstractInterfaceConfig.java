@@ -13,7 +13,7 @@ import cn.ching.mandal.registry.RegistryFactory;
 import cn.ching.mandal.registry.RegistryService;
 import cn.ching.mandal.rpc.Filter;
 import cn.ching.mandal.rpc.ProxyFactory;
-import cn.ching.mandal.rpc.cluster.Cluster;
+import cn.ching.mandal.cluster.Cluster;
 import cn.ching.mandal.rpc.support.MockInvoker;
 import lombok.Getter;
 import lombok.Setter;

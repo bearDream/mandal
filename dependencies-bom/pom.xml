@@ -34,6 +34,7 @@
     </developers>
 
     <properties>
+        <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
         <!-- common libs -->
         <!-- 3rd lib -->
         <zookeeper_version>3.4.9</zookeeper_version>
@@ -63,6 +64,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
                 <version>${spring_version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

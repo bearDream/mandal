@@ -121,6 +121,14 @@
 
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
@@ -186,19 +194,19 @@
                             <transformers>
                                 <!-- cluster module -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.Cluster</resource>
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.cluster.Cluster</resource>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.ConfiguratorFactory</resource>
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.cluster.ConfiguratorFactory</resource>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.LoadBalance</resource>
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.cluster.LoadBalance</resource>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.Merger</resource>
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.cluster.Merger</resource>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.cluster.RouterFactory</resource>
+                                    <resource>META-INF/mandal/internal/cn.ching.mandal.cluster.RouterFactory</resource>
                                 </transformer>
 
                                 <!-- common module -->

@@ -11,7 +11,7 @@ import cn.ching.mandal.config.annoatation.Service;
 import cn.ching.mandal.config.invoker.DelegateProviderMetaDataInvoker;
 import cn.ching.mandal.config.support.Parameter;
 import cn.ching.mandal.rpc.*;
-import cn.ching.mandal.rpc.cluster.ConfiguratorFactory;
+import cn.ching.mandal.cluster.ConfiguratorFactory;
 import cn.ching.mandal.rpc.service.GenericService;
 import cn.ching.mandal.rpc.support.ProtocolUtils;
 import lombok.Getter;
