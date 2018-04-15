@@ -20,7 +20,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(MandalConfigBindingRegister.class)
+@Import(MandalConfigBindingRegistrar.class)
 public @interface EnableMandalConfigBindings {
 
     /**
