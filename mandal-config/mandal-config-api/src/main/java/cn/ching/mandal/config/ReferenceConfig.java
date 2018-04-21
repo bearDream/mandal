@@ -321,7 +321,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 if (!CollectionUtils.isEmpty(us)){
                     us.stream().forEach(url -> {
                         URL monitorUrl = loadMonitor(url);
-                        if (Objects.isNull(monitorUrl)){
+                        if (!Objects.isNull(monitorUrl)){
                             map.put(Constants.MONITOR_KEY, URL.encode(monitorUrl.toFullString()));
                         }
                         urls.add(url.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));

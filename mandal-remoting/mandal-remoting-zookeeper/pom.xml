@@ -6,11 +6,11 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-remoting</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOTS</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-remoting-zookeeper</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOTS</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 

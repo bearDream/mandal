@@ -7,17 +7,39 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-demo</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOTS</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-demo-provider</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOTS</version>
 
     <dependencies>
         <dependency>
             <groupId>cn.ching</groupId>
             <artifactId>mandal-demo-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-config-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-registry-multicast</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
         </dependency>
     </dependencies>
 </project>

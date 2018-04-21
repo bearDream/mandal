@@ -291,7 +291,7 @@ public class ExtensionLoader<T> {
      */
     private T injectExtension(T instance) {
         try {
-            if (Objects.nonNull(objectFactory)){
+            if (!Objects.isNull(objectFactory)){
                 Method[] methods = instance.getClass().getMethods();
                 for (Method method : methods){
                     if (method.getName().startsWith("set")
@@ -304,7 +304,7 @@ public class ExtensionLoader<T> {
                             String property = method.getName().length() > 3 ? method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4) : "";
                             // get Protocol$Adaptive
                             Object object = objectFactory.getExtension(pt, property);
-                            if (Objects.nonNull(object)){
+                            if (!Objects.isNull(object)){
                                 // inject set method Protocol$Adaptive
                                 method.invoke(instance, object);
                             }
@@ -560,7 +560,7 @@ public class ExtensionLoader<T> {
             }
             return instance;
         } catch (Throwable t) {
-            throw new IllegalStateException("Extension instance name: " + name + "class: " + type + "couldn't be instantiated " + t.getMessage(), t);
+            throw new IllegalStateException("Extension instance name: " + name + " class: " + type + " couldn't be instantiated " + t.getMessage(), t);
         }
 
     }
@@ -578,7 +578,7 @@ public class ExtensionLoader<T> {
             }
         }
         // if can't find exception, then get all exception ;
-        StringBuilder e = new StringBuilder("No such extension " + type.getName() + "by name :" + name);
+        StringBuilder e = new StringBuilder("No such extension " + type.getName() + " by name :" + name);
         int i = 1;
         for (Map.Entry<String, IllegalStateException> entry : exception.entrySet()){
             if (i == 1){

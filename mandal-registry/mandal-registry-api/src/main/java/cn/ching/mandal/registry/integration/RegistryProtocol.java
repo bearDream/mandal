@@ -45,7 +45,7 @@ public class RegistryProtocol implements Protocol{
     @Setter
     private ProxyFactory proxyFactory;
 
-    private RegistryProtocol(){
+    public RegistryProtocol(){
         INSTANCE = this;
     }
 

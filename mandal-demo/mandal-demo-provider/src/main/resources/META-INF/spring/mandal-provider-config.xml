@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mandal="http://code.chiprincess.cn/schema/mandal"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://code.chiprincess.cn/schema/mandal http://code.chiprincess.cn/schema/mandal/mandal.xsd">
+
+    <mandal:application name="demo-provider"/>
+
+    <mandal:registry address="multicast://224.5.6.7:1234"/>
+
+    <mandal:protocol name="rmi" port="20880"/>
+
+    <bean id="indexService" class="cn.ching.mandal.demo.RpcIndexServiceImpl"/>
+
+    <mandal:service interface="cn.ching.mandal.demo.api.RpcIndexService" ref="indexService"/>
+</beans>

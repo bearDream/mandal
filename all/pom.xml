@@ -7,13 +7,13 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOTS</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOTS</version>
     <packaging>jar</packaging>
     <name>mandal-all</name>
     <description>all of mandal jars in one Jar.</description>
@@ -86,6 +86,20 @@
         <dependency>
             <groupId>cn.ching</groupId>
             <artifactId>mandal-registry-zookeeper</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-registry-default</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-registry-multicast</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <optional>true</optional>
@@ -176,19 +190,22 @@
                             <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
                             <artifactSet>
                                 <includes>
+                                    <include>cn.ching:mandal-cluster</include>
                                     <include>cn.ching:mandal-common</include>
-                                    <include>cn.ching:mandal-remoting-zookeeper</include>
-                                    <include>cn.ching:mandal-registry-api</include>
-                                    <include>cn.ching:mandal-registry-zookeeper</include>
+                                    <include>cn.ching:mandal-config-api</include>
+                                    <include>cn.ching:mandal-config-spring</include>
                                     <include>cn.ching:mandal-container-api</include>
                                     <include>cn.ching:mandal-container-spring</include>
-                                    <include>cn.ching:mandal-config-api</include>
-                                    <include>cn.ching:mandal-cluster</include>
+                                    <include>cn.ching:mandal-monitor-api</include>
+                                    <include>cn.ching:mandal-monitor-default</include>
+                                    <include>cn.ching:mandal-registry-api</include>
+                                    <include>cn.ching:mandal-registry-default</include>
+                                    <include>cn.ching:mandal-registry-multicast</include>
+                                    <include>cn.ching:mandal-registry-zookeeper</include>
+                                    <include>cn.ching:mandal-remoting-zookeeper</include>
                                     <include>cn.ching:mandal-rpc-api</include>
                                     <include>cn.ching:mandal-rpc-injvm</include>
                                     <include>cn.ching:mandal-rpc-rmi</include>
-                                    <include>cn.ching:mandal-monitor-api</include>
-                                    <include>cn.ching:mandal-monitor-default</include>
                                 </includes>
                             </artifactSet>
                             <transformers>

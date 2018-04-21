@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-registry</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOTS</version>
     </parent>
 
     <groupId>cn.ching</groupId>
@@ -22,7 +22,12 @@
         </dependency>
         <dependency>
             <groupId>cn.ching</groupId>
-            <artifactId>mandal-rpc</artifactId>
+            <artifactId>mandal-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-rpc-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

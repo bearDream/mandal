@@ -1,6 +1,7 @@
 package cn.ching.mandal.rpc;
 
 import cn.ching.mandal.common.URL;
+import cn.ching.mandal.common.extension.Adaptive;
 import cn.ching.mandal.common.extension.SPI;
 
 /**
@@ -30,6 +31,7 @@ public interface Protocol {
      * @return exporter ref for exported services
      * @throws RpcException
      */
+    @Adaptive
     <T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
 
     /**
@@ -46,6 +48,7 @@ public interface Protocol {
      * @param <T>  remote service type
      * @return remote service local proxy
      */
+    @Adaptive
     <T> Invoker<T> refer(Class<T> type, URL url);
 
     /**

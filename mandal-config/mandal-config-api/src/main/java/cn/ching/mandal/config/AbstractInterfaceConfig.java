@@ -162,8 +162,8 @@ public class AbstractInterfaceConfig extends AbstractMethodConfig {
                 if (!Objects.isNull(sysaddress)){
                     address = sysaddress;
                 }
-                if (!Objects.isNull(sysaddress)
-                        && sysaddress.length() > 0
+                if (!Objects.isNull(address)
+                        && address.length() > 0
                         && !RegistryConfig.NO_AVAILABLE.equalsIgnoreCase(address)){
                     Map<String, String> map = new HashMap<>();
                     appendParameters(map, application);

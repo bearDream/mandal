@@ -13,7 +13,7 @@
     <groupId>cn.ching</groupId>
     <artifactId>mandal-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOTS</version>
     <modules>
         <module>mandal-demo</module>
         <module>mandal-common</module>
@@ -25,13 +25,17 @@
         <module>mandal-container</module>
         <module>mandal-monitor</module>
         <module>mandal-autoconfigure</module>
+        <module>mandal-dependencies-bom</module>
+        <module>mandal-bom</module>
         <module>all</module>
-        <module>dependencies-bom</module>
     </modules>
 
 
     <properties>
-        <mandal_version>0.0.1-SNAPSHOT</mandal_version>
+        <mandal_version>0.0.1-SNAPSHOTS</mandal_version>
+
+        <junit_version>4.12</junit_version>
+        <lombokVersion>1.16.18</lombokVersion>
         <!-- for maven compiler plugin -->
         <java_source_version>1.8</java_source_version>
         <java_target_version>1.8</java_target_version>
@@ -49,7 +53,7 @@
             <dependency>
                 <groupId>cn.ching</groupId>
                 <artifactId>mandal-dependencies-bom</artifactId>
-                <version>0.0.1</version>
+                <version>0.0.1-SNAPSHOTS</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -60,13 +64,29 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombokVersion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${junit_version}</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>java8</id>
+            <properties>
+                <maven_jar_version>3.0.2</maven_jar_version>
+                <maven_surefire_version>2.19.1</maven_surefire_version>
+                <maven_deploy_version>2.7</maven_deploy_version>
+                <maven_compiler_version>3.1</maven_compiler_version>
+                <maven_source_version>3.0.1</maven_source_version>
+                <maven_javadoc_version>2.10.1</maven_javadoc_version>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <pluginManagement>
