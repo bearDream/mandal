@@ -21,6 +21,18 @@
         </dependency>
         <dependency>
             <groupId>cn.ching</groupId>
+            <artifactId>mandal-registry-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-registry-default</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
+            <artifactId>mandal-registry-multicast</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching</groupId>
             <artifactId>mandal-demo-api</artifactId>
             <version>${project.version}</version>
         </dependency>

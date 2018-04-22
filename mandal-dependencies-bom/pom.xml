@@ -52,8 +52,6 @@
         <log4j_version>1.2.16</log4j_version>
         <logback_version>1.2.2</logback_version>
         <!-- util -->
-        <lombok_version>1.16.16</lombok_version>
-        <junit_version>4.12</junit_version>
         <fastjson_version>1.2.38</fastjson_version>
     </properties>
 
@@ -143,23 +141,11 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback_version}</version>
             </dependency>
-            <!-- junit -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit_version}</version>
-                <scope>test</scope>
-            </dependency>
             <!-- utils -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok_version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -86,7 +86,7 @@ public abstract class AbstractConfig implements Serializable{
         if (Objects.isNull(config)){
             return;
         }
-        String prefix = "mandal" + getTagName(config.getClass()) + ".";
+        String prefix = "mandal." + getTagName(config.getClass()) + ".";
         Method[] methods = config.getClass().getMethods();
         for (Method method : methods) {
             try {

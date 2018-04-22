@@ -459,7 +459,7 @@ public class ExtensionLoader<T> {
 
                                         }
                                     } catch (Throwable t){
-                                        IllegalStateException e = new IllegalStateException("failed to load extension on loadFile interface( " + type.getName() + " ) line is ( " + line + ") url: " + url + "cause:{" + t.getMessage() + "}");
+                                        IllegalStateException e = new IllegalStateException("failed to load extension on loadFile interface( " + type.getName() + " ) line is ( " + line + ") url: " + url + " cause:{" + t.getMessage() + "}");
                                         exception.put(line, e);
                                     }
                                 }
@@ -555,7 +555,7 @@ public class ExtensionLoader<T> {
             Set<Class<?>> wrapperClasses = cachedWrapperClasses;
             if (wrapperClasses != null && wrapperClasses.size() > 0){
                 for (Class<?> wrapperClass : wrapperClasses){
-                    instance = injectExtension((T) wrapperClass.getConstructor(type).newInstance());
+                    instance = injectExtension((T) wrapperClass.getConstructor(type).newInstance(instance));
                 }
             }
             return instance;

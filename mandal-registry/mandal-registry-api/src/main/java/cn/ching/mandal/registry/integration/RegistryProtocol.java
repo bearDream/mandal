@@ -124,7 +124,7 @@ public class RegistryProtocol implements Protocol{
     @Override
     public <T> Invoker<T> refer(Class<T> type, URL url) {
 
-        url = url.setProtocol(url.getParameter(Constants.REGISTER_KEY, Constants.DEFAULT_REGISTRY)).removeParameter(Constants.REGISTER_KEY);
+        url = url.setProtocol(url.getParameter(Constants.REGISTRY_KEY, Constants.DEFAULT_REGISTRY)).removeParameter(Constants.REGISTRY_KEY);
         Registry registry = registryFactory.getRegistry(url);
         if (RegistryService.class.equals(type)){
             return proxyFactory.getInvoker((T) registry, type, url);

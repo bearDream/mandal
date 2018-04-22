@@ -1,4 +1,4 @@
-package cn.ching.mandal.registry.mandal;
+package cn.ching.mandal.registry.multicast;
 
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.registry.Registry;
