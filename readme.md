@@ -1,5 +1,5 @@
 # mandal
-[![Build Status](https://travis-ci.org/bearDream/mandal.svg?branch=master)](https://travis-ci.org/bearDream/mandal)  
+[![Build Status](https://travis-ci.org/bearDream/mandal.svg?branch=v0.0.1)](https://travis-ci.org/bearDream/mandal)  
 
 higher performance, plugins RPC Framework
 
