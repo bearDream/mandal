@@ -45,9 +45,9 @@ public class Constants {
 
     public static final String DYNAMIC_KEY = "dynamic";
 
-    public static final String DUBBO_PROPERTIES_KEY = "dubbo.properties.file";
+    public static final String MANDAL_PROPERTIES_KEY = "mandal.properties.file";
 
-    public static final String DEFAULT_DUBBO_PROPERTIES = "dubbo.properties";
+    public static final String DEFAULT_MANDAL_PROPERTIES = "mandal.properties";
 
     public static final String SENT_KEY = "sent";
 
@@ -67,11 +67,11 @@ public class Constants {
 
     public static final String DEFAULT_CLUSTER = "failover";
 
-    public static final String DEFAULT_DIRECTORY = "dubbo";
+    public static final String DEFAULT_DIRECTORY = "mandal";
 
     public static final String DEFAULT_LOADBALANCE = "random";
 
-    public static final String DEFAULT_PROTOCOL = "dubbo";
+    public static final String DEFAULT_PROTOCOL = "mandal";
 
     public static final String DEFAULT_EXCHANGER = "header";
 
@@ -81,7 +81,7 @@ public class Constants {
 
     public static final String DEFAULT_REMOTING_CLIENT = "netty";
 
-    public static final String DEFAULT_REMOTING_CODEC = "dubbo";
+    public static final String DEFAULT_REMOTING_CODEC = "mandal";
 
     public static final String DEFAULT_REMOTING_SERIALIZATION = "hessian2";
 
@@ -97,7 +97,7 @@ public class Constants {
 
     public static final int DEFAULT_FORKS = 2;
 
-    public static final String DEFAULT_THREAD_NAME = "Dubbo";
+    public static final String DEFAULT_THREAD_NAME = "Mandal";
 
     public static final int DEFAULT_CORE_THREADS = 0;
 
@@ -121,7 +121,7 @@ public class Constants {
 
     public static final int DEFAULT_RETRIES = 2;
 
-    // default buffer size is 8k.
+    // mandal buffer size is 8k.
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
     public static final int MAX_BUFFER_SIZE = 16 * 1024;
@@ -132,9 +132,9 @@ public class Constants {
 
     public static final String HIDE_KEY_PREFIX = ".";
 
-    public static final String DEFAULT_KEY_PREFIX = "default.";
+    public static final String DEFAULT_KEY_PREFIX = "mandal.";
 
-    public static final String DEFAULT_KEY = "default";
+    public static final String DEFAULT_KEY = "mandal";
 
     public static final String LOADBALANCE_KEY = "loadbalance";
 
@@ -153,7 +153,7 @@ public class Constants {
 
     public static final String CONSUMER_SIDE = "consumer";
 
-    public static final String DEFAULT_REGISTRY = "dubbo";
+    public static final String DEFAULT_REGISTRY = "mandal";
 
     public static final String BACKUP_KEY = "backup";
 
@@ -170,6 +170,8 @@ public class Constants {
     public static final String LOCALHOST_VALUE = "127.0.0.1";
 
     public static final String APPLICATION_KEY = "application";
+
+    public static final String APPLICATION_VERSION = "application.version";
 
     public static final String LOCAL_KEY = "local";
 
@@ -239,7 +241,7 @@ public class Constants {
 
     public static final String PROMPT_KEY = "prompt";
 
-    public static final String DEFAULT_PROMPT = "dubbo>";
+    public static final String DEFAULT_PROMPT = "mandal>";
 
     public static final String CODEC_KEY = "codec";
 
@@ -299,6 +301,8 @@ public class Constants {
 
     public static final String INTERFACE_KEY = "interface";
 
+    public static final String INTERFACES = "interfaces";
+
     public static final String GENERIC_KEY = "generic";
 
     public static final String FILE_KEY = "file";
@@ -313,7 +317,7 @@ public class Constants {
 
     public static final String REVISION_KEY = "revision";
 
-    public static final String DUBBO_VERSION_KEY = "dubbo";
+    public static final String MANDAL_VERSION_KEY = "mandal";
 
     public static final String HESSIAN_VERSION_KEY = "hessian.version";
 
@@ -321,7 +325,7 @@ public class Constants {
 
     public static final String CHANNEL_HANDLER_KEY = "channel.handler";
 
-    public static final String DEFAULT_CHANNEL_HANDLER = "default";
+    public static final String DEFAULT_CHANNEL_HANDLER = "mandal";
 
     public static final String ANY_VALUE = "*";
 
@@ -392,7 +396,7 @@ public class Constants {
     public static final String CLUSTER_AVAILABLE_CHECK_KEY = "cluster.availablecheck";
 
     /**
-     * The default value of cluster.availablecheck
+     * The mandal value of cluster.availablecheck
      *
      * @see #CLUSTER_AVAILABLE_CHECK_KEY
      */
@@ -404,7 +408,7 @@ public class Constants {
     public static final String CLUSTER_STICKY_KEY = "sticky";
 
     /**
-     * The default value of sticky
+     * The mandal value of sticky
      *
      * @see #CLUSTER_STICKY_KEY
      */
@@ -421,14 +425,14 @@ public class Constants {
     public static final String LAZY_CONNECT_INITIAL_STATE_KEY = "connect.lazy.initial.state";
 
     /**
-     * The default value of lazy connection's initial state: true
+     * The mandal value of lazy connection's initial state: true
      *
      * @see #LAZY_CONNECT_INITIAL_STATE_KEY
      */
     public static final boolean DEFAULT_LAZY_CONNECT_INITIAL_STATE = true;
 
     /**
-     * To decide whether register center saves file synchronously, the default value is asynchronously
+     * To decide whether register center saves file synchronously, the mandal value is asynchronously
      */
     public static final String REGISTRY_FILESAVE_SYNC_KEY = "save.file";
 
@@ -474,7 +478,7 @@ public class Constants {
     public static final String CALLBACK_INSTANCES_LIMIT_KEY = "callbacks";
 
     /**
-     * The default limit number for callback services instances
+     * The mandal limit number for callback services instances
      *
      * @see #CALLBACK_INSTANCES_LIMIT_KEY
      */
@@ -490,9 +494,9 @@ public class Constants {
     public static final String CHANNEL_CALLBACK_KEY = "channel.callback.invokers.key";
 
     @Deprecated
-    public static final String SHUTDOWN_WAIT_SECONDS_KEY = "dubbo.services.shutdown.wait.seconds";
+    public static final String SHUTDOWN_WAIT_SECONDS_KEY = "mandal.services.shutdown.wait.seconds";
 
-    public static final String SHUTDOWN_WAIT_KEY = "dubbo.services.shutdown.wait";
+    public static final String SHUTDOWN_WAIT_KEY = "mandal.services.shutdown.wait";
 
     public static final String IS_SERVER_KEY = "isserver";
 
@@ -534,11 +538,11 @@ public class Constants {
 
     public static final String DEFAULT_SCRIPT_TYPE_KEY = "javascript";
 
-    public static final String STUB_EVENT_KEY = "dubbo.stub.event";
+    public static final String STUB_EVENT_KEY = "mandal.stub.event";
 
     public static final boolean DEFAULT_STUB_EVENT = false;
 
-    public static final String STUB_EVENT_METHODS_KEY = "dubbo.stub.event.methods";
+    public static final String STUB_EVENT_METHODS_KEY = "mandal.stub.event.methods";
 
     /**
      * When this attribute appears in invocation's attachment, mock invoker will be used
@@ -581,17 +585,19 @@ public class Constants {
 
     public static final String GENERIC_SERIALIZATION_BEAN = "bean";
 
-    public static final String DUBBO_IP_TO_REGISTRY = "DUBBO_IP_TO_REGISTRY";
+    public static final String MANDAL_IP_TO_REGISTRY = "MANDAL_IP_TO_REGISTRY";
 
-    public static final String DUBBO_PORT_TO_REGISTRY = "DUBBO_PORT_TO_REGISTRY";
+    public static final String MANDAL_PORT_TO_REGISTRY = "MANDAL_PORT_TO_REGISTRY";
 
-    public static final String DUBBO_IP_TO_BIND = "DUBBO_IP_TO_BIND";
+    public static final String MANDAL_IP_TO_BIND = "MANDAL_IP_TO_BIND";
 
-    public static final String DUBBO_PORT_TO_BIND = "DUBBO_PORT_TO_BIND";
+    public static final String MANDAL_PORT_TO_BIND = "MANDAL_PORT_TO_BIND";
 
     public static final String BIND_IP_KEY = "bind.ip";
 
     public static final String BIND_PORT_KEY = "bind.port";
 
     public static final String REGISTER_IP_KEY = "register.ip";
+
+    public static final String MODULE_VERSION = "module.version";
 }

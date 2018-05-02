@@ -96,7 +96,7 @@ public class ClassHelper {
     }
 
     /**
-     * Return the default ClassLoader to use: typically the thread context
+     * Return the mandal ClassLoader to use: typically the thread context
      * ClassLoader, if available; the ClassLoader that loaded the ClassUtils
      * class will be used as fallback.
      * <p>
@@ -106,7 +106,7 @@ public class ClassHelper {
      * <code>Class.forName</code>, which accepts a <code>null</code> ClassLoader
      * reference as well).
      *
-     * @return the default ClassLoader (never <code>null</code>)
+     * @return the mandal ClassLoader (never <code>null</code>)
      * @see Thread#getContextClassLoader()
      */
     public static ClassLoader getClassLoader() {
@@ -128,7 +128,7 @@ public class ClassHelper {
      *
      * @param name        the name of the Class
      * @param classLoader the class loader to use (may be <code>null</code>,
-     *                    which indicates the default class loader)
+     *                    which indicates the mandal class loader)
      * @return Class instance for the supplied name
      * @throws ClassNotFoundException if the class was not found
      * @throws LinkageError           if the class file could not be loaded

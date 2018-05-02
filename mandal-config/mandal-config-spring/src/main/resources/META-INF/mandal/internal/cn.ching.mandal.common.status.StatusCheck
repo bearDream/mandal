@@ -1,0 +1,2 @@
+datasource=cn.ching.mandal.config.spring.status.SpringStatusCheck
+spring=cn.ching.mandal.config.spring.status.DataSourceStatusCheck

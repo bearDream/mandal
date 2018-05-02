@@ -1,17 +1,18 @@
 package cn.ching.mandal.common.extension;
 
+import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.compiler.Compiler;
+import cn.ching.mandal.common.extension.support.ActivateComparator;
 import cn.ching.mandal.common.logger.Logger;
-import cn.ching.mandal.common.logger.LoggerAdapter;
 import cn.ching.mandal.common.logger.LoggerFactory;
 import cn.ching.mandal.common.utils.ClassHolder;
 import cn.ching.mandal.common.utils.ConcurrentHashSet;
+import cn.ching.mandal.common.utils.ConfigUtils;
 import cn.ching.mandal.common.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
 /**
  * 2018/1/5
  * load extension
+ * wrapper class must have constructor as Protocol as parameter.
  * @since 1.8
  * @author chi.zhang
  * @email laxzhang@outlook.com
@@ -50,6 +52,7 @@ public class ExtensionLoader<T> {
     // when invoke constructor objectFactory has been instancing
     private final ExtensionFactory objectFactory;
 
+    // implication class name
     private final ConcurrentHashMap<Class<?>, String> cachedNames = new ConcurrentHashMap<Class<?>, String>();
 
     private final ClassHolder<Map<String, Class<?>>> cachedClasses = new ClassHolder<Map<String, Class<?>>>();
@@ -110,6 +113,147 @@ public class ExtensionLoader<T> {
         return type.isAnnotationPresent(SPI.class);
     }
 
+    public String getExtensionName(T extesionInstances){
+        return getExtensionName(extesionInstances.getClass());
+    }
+
+    public String getExtensionName(Class<?> extensionClass){
+        return cachedNames.get(extensionClass);
+    }
+
+
+    public String getDefaultExtensionName() {
+        getExtensionClasses();
+        return cachedDefaultName;
+    }
+
+    /**
+     * get activate extension list
+     * @param url url
+     * @param key url parameter key which used to get extension point names
+     * @return extension list which activate
+     */
+    public List<T> getActivateExtension(URL url, String key){
+        return getActivateExtension(url, key, null);
+    }
+
+    /**
+     * get activate extension list
+     * @param url url
+     * @param values extension point names
+     * @return extension list which activate
+     */
+    public List<T> getActivateExtension(URL url, String[] values){
+        return getActivateExtension(url, values, null);
+    }
+
+    /**
+     * get activate extension list
+     * @param url url
+     * @param key url parameter key which used to get extension point names
+     * @param group group
+     * @return
+     */
+    public List<T> getActivateExtension(URL url, String key, String group){
+        String value = url.getParameter(key);
+        return getActivateExtension(url, StringUtils.isBlank(value) ? null : Constants.COMMA_SPLIT_PATTERN.split(value), group);
+    }
+
+    /**
+     * get activate extension list
+     * @param url url
+     * @param value extension point names
+     * @param group group
+     * @return
+     * @see {@link Activate}
+     */
+    public List<T> getActivateExtension(URL url, String[] value, String group){
+        List<T> exts = new ArrayList<>();
+        List<String> names = Objects.isNull(value) ? new ArrayList<>() : Arrays.asList(value);
+        // find name contain "-mandal". load all mandal activate extension
+        if (!names.contains(Constants.REMOVE_VALUE_PREFIX + Constants.DEFAULT_KEY)){
+            getExtensionClasses();
+            for (Map.Entry<String, Activate> entry : cachedActivates.entrySet()){
+                Activate activate = entry.getValue();
+                String name = entry.getKey();
+                if (isMatchGroup(group, activate.group())){
+                    T ext = getExtension(name);
+                    if (!names.contains(name)
+                            && !names.contains(Constants.REMOVE_VALUE_PREFIX + name)
+                            && isActive(activate, url)){
+                        exts.add(ext);
+                    }
+                }
+            }
+            // sort extension by order/before/after
+            Collections.sort(exts, ActivateComparator.COMPARATOR);
+        }
+        List<T> nameExtensions = new ArrayList<>();
+        names.stream().filter(name -> !name.startsWith(Constants.REMOVE_VALUE_PREFIX) && !names.contains(Constants.REMOVE_VALUE_PREFIX + name))
+                .forEach(name -> {
+                    if (Constants.DEFAULT_KEY.equals(name)){
+                        if (nameExtensions.size() > 0){
+                            exts.addAll(nameExtensions);
+                            nameExtensions.clear(); // avoid duplicate add to exts
+                        }
+                    }else {
+                        T ext = getExtension(name);
+                        nameExtensions.add(ext);
+                    }
+                });
+        if (nameExtensions.size() > 0){
+            exts.addAll(nameExtensions);
+        }
+        return exts;
+    }
+
+    /**
+     * mathch group exists in groups[]
+     * @param group
+     * @param groups
+     * @return
+     */
+    private boolean isMatchGroup(String group, String[] groups){
+        if (Objects.isNull(groups) || groups.length == 0){
+            return true;
+        }
+        if (!Objects.isNull(groups) && groups.length > 0){
+            for (String g : groups){
+                if (g.equals(group)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * find url parameters in activate values
+     * @param activate
+     * @param url
+     * @return
+     */
+    private boolean isActive(Activate activate, URL url){
+        String[] keys = activate.value();
+        if (Objects.isNull(keys) || keys.length == 0){
+            return true;
+        }
+
+        if (!Objects.isNull(keys) && keys.length > 0){
+            for (String key : keys){
+                for (Map.Entry<String, String> entry : url.getParameters().entrySet()){
+                    String k = entry.getKey();
+                    String v = entry.getValue();
+                    if ((k.equals(key) || k.endsWith("." + key) && ConfigUtils.isNotEmpty(v))){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
     /**
      * get adaptive instance
      * @return
@@ -147,7 +291,7 @@ public class ExtensionLoader<T> {
      */
     private T injectExtension(T instance) {
         try {
-            if (Objects.nonNull(objectFactory)){
+            if (!Objects.isNull(objectFactory)){
                 Method[] methods = instance.getClass().getMethods();
                 for (Method method : methods){
                     if (method.getName().startsWith("set")
@@ -160,7 +304,7 @@ public class ExtensionLoader<T> {
                             String property = method.getName().length() > 3 ? method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4) : "";
                             // get Protocol$Adaptive
                             Object object = objectFactory.getExtension(pt, property);
-                            if (Objects.nonNull(object)){
+                            if (!Objects.isNull(object)){
                                 // inject set method Protocol$Adaptive
                                 method.invoke(instance, object);
                             }
@@ -199,7 +343,7 @@ public class ExtensionLoader<T> {
             if (StringUtils.notBlank(val)){
                 String[] vals = NAME_SEPERATOR.split(val);
                 if (vals.length > 1){
-                    throw new IllegalStateException("more then 1 extension name: " + type.getName() + " " + Arrays.toString(vals));
+                    throw new IllegalStateException("more than 1 extension name: " + type.getName() + " " + Arrays.toString(vals));
                 }
                 if (vals.length==1){
                     cachedDefaultName = vals[0];
@@ -272,6 +416,7 @@ public class ExtensionLoader<T> {
                                             }else {
                                                 try {
                                                     // judge clazz has type as parameter construct method! if not have constructor then throw NoSuchMethodException
+                                                    // get wrapper class.(only for wrapper Design pattern)
                                                     clazz.getConstructor(type);
                                                     Set<Class<?>> wrappers = cachedWrapperClasses;
                                                     if (Objects.isNull(wrappers)){
@@ -314,7 +459,7 @@ public class ExtensionLoader<T> {
 
                                         }
                                     } catch (Throwable t){
-                                        IllegalStateException e = new IllegalStateException("failed to load extension on loadFile interface( " + type.getName() + " ) line is ( " + line + ") url: " + url + "cause:{" + t.getMessage() + "}");
+                                        IllegalStateException e = new IllegalStateException("failed to load extension on loadFile interface( " + type.getName() + " ) line is ( " + line + ") url: " + url + " cause:{" + t.getMessage() + "}");
                                         exception.put(line, e);
                                     }
                                 }
@@ -333,6 +478,10 @@ public class ExtensionLoader<T> {
     }
 
     private static ClassLoader findClassLoader(){
+        return ExtensionLoader.class.getClassLoader();
+    }
+
+    public static ClassLoader findclassLoader(){
         return ExtensionLoader.class.getClassLoader();
     }
 
@@ -406,12 +555,12 @@ public class ExtensionLoader<T> {
             Set<Class<?>> wrapperClasses = cachedWrapperClasses;
             if (wrapperClasses != null && wrapperClasses.size() > 0){
                 for (Class<?> wrapperClass : wrapperClasses){
-                    instance = injectExtension((T) wrapperClass.getConstructor(type).newInstance());
+                    instance = injectExtension((T) wrapperClass.getConstructor(type).newInstance(instance));
                 }
             }
             return instance;
         } catch (Throwable t) {
-            throw new IllegalStateException("Extension instance name: " + name + "class: " + type + "couldn't be instantiated " + t.getMessage(), t);
+            throw new IllegalStateException("Extension instance name: " + name + " class: " + type + " couldn't be instantiated " + t.getMessage(), t);
         }
 
     }
@@ -429,7 +578,7 @@ public class ExtensionLoader<T> {
             }
         }
         // if can't find exception, then get all exception ;
-        StringBuilder e = new StringBuilder("No such extension " + type.getName() + "by name :" + name);
+        StringBuilder e = new StringBuilder("No such extension " + type.getName() + " by name :" + name);
         int i = 1;
         for (Map.Entry<String, IllegalStateException> entry : exception.entrySet()){
             if (i == 1){
@@ -678,5 +827,55 @@ public class ExtensionLoader<T> {
     @Override
     public String toString() {
         return this.getClass().getName() + "[" + type.getName() + "]";
+    }
+
+    public boolean hasExtension(String name) {
+        if (StringUtils.isEmpty(name)){
+            throw new IllegalArgumentException("Extension name is null");
+        }
+        try {
+            return getExtensionClass(name) != null;
+        }catch (Throwable t){
+            return false;
+        }
+    }
+
+    private Class<?> getExtensionClass(String name) {
+        if (Objects.isNull(type)){
+            throw new IllegalArgumentException("Extension type == null");
+        }
+        if (Objects.isNull(name)){
+            throw new IllegalArgumentException("Extension name == null");
+        }
+        Class<?> clazz = getExtensionClasses().get(name);
+        if (Objects.isNull(clazz)){
+            throw new IllegalStateException("No such extension " + name + " for " + type.getName() + ".");
+        }
+        return clazz;
+    }
+
+    /**
+     * return the list of extensions which already loaded.
+     * @return
+     */
+    public Set<String> getLoadedExtension() {
+        return Collections.unmodifiableSet(new TreeSet<String>(cachedInstances.keySet()));
+    }
+
+    /**
+     * return extension instance by name.
+     * @param name
+     * @return
+     */
+    public T getLoadedExtension(String name){
+        if (StringUtils.isEmpty(name)){
+            throw new IllegalArgumentException("Extension name is null.");
+        }
+        ClassHolder<Object> holder = cachedInstances.get(name);
+        if (Objects.isNull(holder)){
+            cachedInstances.putIfAbsent(name, new ClassHolder<>());
+            holder = cachedInstances.get(name);
+        }
+        return (T) holder.get();
     }
 }

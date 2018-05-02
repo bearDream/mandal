@@ -1,0 +1,3 @@
+fixed=cn.ching.mandal.common.threadpool.support.fixed.FixedThreadPool
+limited=cn.ching.mandal.common.threadpool.support.fixed.LimitedThreadPool
+cached=cn.ching.mandal.common.threadpool.support.fixed.CachedThreadPool

@@ -4,88 +4,58 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <groupId>cn.ching</groupId>
     <artifactId>mandal-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOTS</version>
     <modules>
-        <module>mandal-rpc</module>
+        <module>mandal-demo</module>
         <module>mandal-common</module>
+        <module>mandal-rpc</module>
+        <module>mandal-config</module>
+        <module>mandal-registry</module>
+        <module>mandal-cluster</module>
+        <module>mandal-remoting</module>
+        <module>mandal-container</module>
+        <module>mandal-monitor</module>
+        <module>mandal-autoconfigure</module>
+        <module>mandal-dependencies-bom</module>
+        <module>mandal-bom</module>
+        <module>all</module>
     </modules>
 
 
     <properties>
-        <!-- common -->
-        <javassist_version>3.20.0-GA</javassist_version>
+        <mandal_version>0.0.1-SNAPSHOTS</mandal_version>
 
-        <!-- Log libs -->
-        <slf4j_version>1.7.25</slf4j_version>
-        <jcl_version>1.2</jcl_version>
-        <log4j_version>1.2.16</log4j_version>
-        <logback_version>1.2.2</logback_version>
-        <!-- util -->
-        <lombok_version>1.16.16</lombok_version>
         <junit_version>4.12</junit_version>
-        <fastjson_version>1.2.38</fastjson_version>
+        <lombokVersion>1.16.18</lombokVersion>
         <!-- for maven compiler plugin -->
         <java_source_version>1.8</java_source_version>
         <java_target_version>1.8</java_target_version>
         <file_encoding>UTF-8</file_encoding>
         <!-- build -->
         <skip_maven_deploy>false</skip_maven_deploy>
+        <maven_compiler_version>3.6.0</maven_compiler_version>
+        <maven_source_version>3.0.1</maven_source_version>
+        <maven_jar_version>3.0.2</maven_jar_version>
+        <maven_deploy_version>2.8.2</maven_deploy_version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- common -->
             <dependency>
-                <groupId>org.javassist</groupId>
-                <artifactId>javassist</artifactId>
-                <version>${javassist_version}</version>
-            </dependency>
-            <!-- Log libs -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${jcl_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback_version}</version>
-            </dependency>
-            <!-- junit -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit_version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- utils -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok_version}</version>
+                <groupId>cn.ching</groupId>
+                <artifactId>mandal-dependencies-bom</artifactId>
+                <version>0.0.1-SNAPSHOTS</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -94,19 +64,54 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombokVersion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${junit_version}</version>
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>java8</id>
+            <properties>
+                <maven_jar_version>3.0.2</maven_jar_version>
+                <maven_surefire_version>2.19.1</maven_surefire_version>
+                <maven_deploy_version>2.7</maven_deploy_version>
+                <maven_compiler_version>3.1</maven_compiler_version>
+                <maven_source_version>3.0.1</maven_source_version>
+                <maven_javadoc_version>2.10.1</maven_javadoc_version>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                        <processAllModules>true</processAllModules>
+                        <newVersion>${mandal_version}</newVersion>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven_jar_version}</version>
                 <configuration>
                     <archive>
                         <addMavenDescriptor>true</addMavenDescriptor>
@@ -121,6 +126,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven_deploy_version}</version>
                 <configuration>
                     <skip>${skip_maven_deploy}</skip>
                 </configuration>
@@ -128,6 +134,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven_compiler_version}</version>
                 <configuration>
                     <fork>true</fork>
                     <source>${java_source_version}</source>
@@ -137,6 +144,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>${maven_source_version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>

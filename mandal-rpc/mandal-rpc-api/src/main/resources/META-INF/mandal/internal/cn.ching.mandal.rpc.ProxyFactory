@@ -1,0 +1,2 @@
+stub=cn.ching.mandal.rpc.service.wrapper.StubProxyFactoryWrapper
+jdk=cn.ching.mandal.rpc.service.jdk.JdkProxyFactory

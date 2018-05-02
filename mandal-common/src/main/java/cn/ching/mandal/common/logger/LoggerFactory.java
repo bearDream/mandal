@@ -39,7 +39,7 @@ public class LoggerFactory {
 
     // search common-used logging frameworks
     static {
-        String logger = System.getProperty("dubbo.application.logger");
+        String logger = System.getProperty("mandal.application.logger");
         if ("slf4j".equals(logger)) {
             setLoggerAdapter(new Slf4jLoggerAdapter());
         } else if ("jcl".equals(logger)) {

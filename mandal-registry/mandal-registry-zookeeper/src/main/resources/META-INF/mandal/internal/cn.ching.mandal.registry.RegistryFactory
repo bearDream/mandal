@@ -1,0 +1,1 @@
+zookeeper=cn.ching.mandal.registry.zookeeper.ZookeeperRegistryFactory

@@ -1,0 +1,2 @@
+curator=cn.ching.mandal.remoting.zookeeper.curator.CuratorZookeeperTransporter
+zkclient=cn.ching.mandal.remoting.zookeeper.zkclient.ZkClientZookeeperTransporter
