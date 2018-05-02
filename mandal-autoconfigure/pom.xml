@@ -7,13 +7,19 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-parent</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOTS</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-autoconfigure</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOTS</version>
     <name>Mandal Spring boot auto configure.</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>spring-boot-starter</module>
+        <module>spring-boot-parent</module>
+        <module>spring-boot-autoconfig</module>
+    </modules>
 
     <dependencies>
         <dependency>

@@ -13,7 +13,7 @@
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal-dependencies-bom</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOTS</version>
     <packaging>pom</packaging>
 
     <name>mandal-dependencies-bom</name>

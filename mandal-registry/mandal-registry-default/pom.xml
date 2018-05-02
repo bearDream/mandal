@@ -6,11 +6,11 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-registry</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOTS</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-registry-default</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOTS</version>
 
     <dependencies>
         <dependency>

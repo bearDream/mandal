@@ -7,13 +7,13 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-parent</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOTS</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOTS</version>
     <packaging>jar</packaging>
     <name>mandal-all</name>
     <description>all of mandal jars in one Jar.</description>

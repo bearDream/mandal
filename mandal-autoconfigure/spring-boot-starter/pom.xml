@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cn.ching</groupId>
-        <artifactId>mandal-demo</artifactId>
+        <artifactId>mandal-parent</artifactId>
         <version>0.0.2-SNAPSHOTS</version>
     </parent>
     <groupId>cn.ching</groupId>
-    <artifactId>mandal-demo-api</artifactId>
+    <artifactId>spring-boot-starter</artifactId>
     <version>0.0.2-SNAPSHOTS</version>
     <packaging>jar</packaging>
 

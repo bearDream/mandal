@@ -7,12 +7,12 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-rpc</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOTS</version>
     </parent>
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal-rpc-api</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOTS</version>
     <packaging>jar</packaging>
 
     <dependencies>

@@ -7,12 +7,12 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-rpc</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOTS</version>
     </parent>
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal-rpc-injvm</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOTS</version>
     <name>${project.artifactId}</name>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
