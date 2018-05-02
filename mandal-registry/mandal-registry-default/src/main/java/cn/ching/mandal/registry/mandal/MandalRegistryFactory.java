@@ -1,6 +1,6 @@
 package cn.ching.mandal.registry.mandal;
 
-import cn.ching.mandal.cluster.Cluster;
+import cn.ching.mandal.rpc.cluster.Cluster;
 import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.common.URL;
 import cn.ching.mandal.common.bytecode.Wrapper;

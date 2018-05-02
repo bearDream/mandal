@@ -196,7 +196,7 @@ public abstract class AbstractRegistry implements Registry{
         }
 
         Set<NotifyListener> listeners = subscribed.get(url);
-        if (Objects.isNull(listener)){
+        if (Objects.isNull(listeners)){
             subscribed.put(url, new HashSet<NotifyListener>());
             listeners = subscribed.get(url);
         }

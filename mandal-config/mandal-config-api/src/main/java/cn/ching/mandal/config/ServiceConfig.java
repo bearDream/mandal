@@ -11,7 +11,7 @@ import cn.ching.mandal.config.annoatation.Service;
 import cn.ching.mandal.config.invoker.DelegateProviderMetaDataInvoker;
 import cn.ching.mandal.config.support.Parameter;
 import cn.ching.mandal.rpc.*;
-import cn.ching.mandal.cluster.ConfiguratorFactory;
+import cn.ching.mandal.rpc.cluster.ConfiguratorFactory;
 import cn.ching.mandal.rpc.service.GenericService;
 import cn.ching.mandal.rpc.support.ProtocolUtils;
 import lombok.Getter;
@@ -49,6 +49,8 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
     private String interfaceName;
     private Class<?> interfaceClass;
     // reference to interface impl
+    @Getter
+    @Setter
     private T ref;
     private String path;
     // method config
@@ -151,11 +153,11 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
             throw new IllegalStateException("Already unexported.");
         }
 
-        if (export){
+        if (exported){
             return;
         }
 
-        export = true;
+        exported = true;
         if (StringUtils.isEmpty(interfaceName)){
             throw new IllegalStateException("<mandal:service interface=\"\"" + " /> interface name is null!");
         }
@@ -273,7 +275,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
         appendParameters(map, protocolConfig);
         appendParameters(map, this);
 
-        if (CollectionUtils.isEmpty(methods)){
+        if (!CollectionUtils.isEmpty(methods)){
             for (MethodConfig method : methods) {
                 appendParameters(map, method, method.getName());
                 String retryKey = method.getName() + ".retry";
@@ -566,7 +568,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
     }
 
     private String getValueFromConfigurator(ProtocolConfig protocolConfig, String key) {
-        String protocolPrefix = protocolConfig.getName() + "_";
+        String protocolPrefix = protocolConfig.getName().toUpperCase() + "_";
         String port = ConfigUtils.getSystemProperty(protocolPrefix + key);
         if (StringUtils.isEmpty(port)){
             port = ConfigUtils.getSystemProperty(key);

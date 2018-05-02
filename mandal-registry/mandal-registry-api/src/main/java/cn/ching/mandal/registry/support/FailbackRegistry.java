@@ -258,7 +258,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
     private void removeFailedSubscribe(URL url, NotifyListener listener) {
 
         Set<NotifyListener> listeners = failedSubscribe.get(url);
-        if (!Objects.isNull(listener)){
+        if (!Objects.isNull(listeners)){
             listeners.remove(url);
         }
 

@@ -13,7 +13,7 @@ import cn.ching.mandal.registry.RegistryFactory;
 import cn.ching.mandal.registry.RegistryService;
 import cn.ching.mandal.rpc.Filter;
 import cn.ching.mandal.rpc.ProxyFactory;
-import cn.ching.mandal.cluster.Cluster;
+import cn.ching.mandal.rpc.cluster.Cluster;
 import cn.ching.mandal.rpc.support.MockInvoker;
 import lombok.Getter;
 import lombok.Setter;
@@ -168,7 +168,7 @@ public class AbstractInterfaceConfig extends AbstractMethodConfig {
                     Map<String, String> map = new HashMap<>();
                     appendParameters(map, application);
                     appendParameters(map, registry);
-                    map.put("patch", RegistryService.class.getName());
+                    map.put("path", RegistryService.class.getName());
                     map.put("mandal", Version.getVersion());
                     map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis()));
                     if (ConfigUtils.getPID() > 0){

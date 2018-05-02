@@ -13,8 +13,8 @@ import cn.ching.mandal.registry.RegistryFactory;
 import cn.ching.mandal.registry.RegistryService;
 import cn.ching.mandal.registry.support.ProviderConsumerRegisterTable;
 import cn.ching.mandal.rpc.*;
-import cn.ching.mandal.cluster.Cluster;
-import cn.ching.mandal.cluster.Configurator;
+import cn.ching.mandal.rpc.cluster.Cluster;
+import cn.ching.mandal.rpc.cluster.Configurator;
 import cn.ching.mandal.rpc.protocol.InvokerWrapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -157,7 +157,10 @@ public class RegistryProtocol implements Protocol{
         if (!Constants.ANY_VALUE.equals(url.getServiceInterface()) && url.getParameter(Constants.REGISTER_KEY, true)){
             registry.register(subscribeUrl.addParameters(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY, Constants.CHECK_KEY, String.valueOf(false)));
         }
-        directory.subscribe(subscribeUrl.addParameter(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY + "," + Constants.CONFIGURATORS_CATEGORY + "," + Constants.ROUTERS_CATEGORY));
+        directory.subscribe(subscribeUrl.addParameter(Constants.CATEGORY_KEY,
+                Constants.PROVIDERS_CATEGORY + ","
+                        + Constants.CONFIGURATORS_CATEGORY + ","
+                        + Constants.ROUTERS_CATEGORY));
         Invoker invoker = cluster.join(directory);
         // register consumer
         ProviderConsumerRegisterTable.registerConsumer(invoker, url, subscribeUrl, directory);

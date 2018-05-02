@@ -2,7 +2,7 @@ package cn.ching.mandal.config;
 
 import cn.ching.mandal.common.Constants;
 import cn.ching.mandal.config.support.Parameter;
-import cn.ching.mandal.cluster.LoadBalance;
+import cn.ching.mandal.rpc.cluster.LoadBalance;
 import lombok.Getter;
 import lombok.Setter;
 
