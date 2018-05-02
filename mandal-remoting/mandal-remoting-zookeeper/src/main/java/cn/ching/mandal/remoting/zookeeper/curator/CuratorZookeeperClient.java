@@ -91,8 +91,7 @@ public class CuratorZookeeperClient extends AbstractZookeeperClient<CuratorWatch
     protected void createPersistent(String path) {
         try {
             client.create().forPath(path);
-        }catch (KeeperException.NoNodeException e){
-            logger.warn("curator create Persistent node occured error. path: " + path, e );
+        }catch (KeeperException.NodeExistsException e){
         }catch (Exception e){
             throw new IllegalStateException(e.getMessage(), e);
         }

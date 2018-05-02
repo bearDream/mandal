@@ -11,7 +11,7 @@ import cn.ching.mandal.demo.api.RpcIndexService;
 public class RpcIndexServiceImpl implements RpcIndexService {
 
     @Override
-    public String index() {
-        return "Hello! Im mandal. Nice to meet you.";
+    public String index(String msg) {
+        return "Hello! Im mandal. Nice to meet you. what are you want to say? " + msg;
     }
 }

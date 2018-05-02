@@ -196,6 +196,9 @@ public class ZookeeperRegistry extends FailbackRegistry {
         return client.isConnected();
     }
 
+    private String toCategoryPath(URL url) {
+        return toServicePath(url) + Constants.PATH_SEPARATOR + url.getParameter(Constants.CATEGORY_KEY, Constants.DEFAULT_CATEGORY);
+    }
 
     private List<URL> toUrlWithEmpty(URL consumer, String paths, List<String> providers) {
         List<URL> urls = toUrlsWithoutEmpty(consumer, providers);
@@ -261,6 +264,6 @@ public class ZookeeperRegistry extends FailbackRegistry {
     }
 
     private String toUrlPath(URL url) {
-        return toCategoriesPath(url) + Constants.PATH_SEPARATOR + URL.decode(url.toFullString());
+        return toCategoryPath(url) + Constants.PATH_SEPARATOR + URL.encode(url.toFullString());
     }
 }

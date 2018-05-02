@@ -83,9 +83,9 @@ public class RpcInvocation implements Invocation, Serializable {
 
     public RpcInvocation(String methodName, Class<?>[] parameterTypes, Object[] arguments, Map<String, String> attachments, Invoker<?> invoker){
         this.methodName = methodName;
-        this.parameterTypes = parameterTypes;
-        this.arguments = arguments;
-        this.attachments = attachments;
+        this.parameterTypes = parameterTypes == null ? new Class<?>[0] : parameterTypes;
+        this.arguments = arguments == null ? new Object[0] : arguments;
+        this.attachments = attachments == null ? new HashMap<String, String>() : attachments;
         this.invoker = invoker;
     }
 
@@ -106,7 +106,7 @@ public class RpcInvocation implements Invocation, Serializable {
     }
     @Override
     public String getMethodName() {
-        return null;
+        return methodName;
     }
 
     public void setMethodName(String methodName) {
@@ -115,7 +115,7 @@ public class RpcInvocation implements Invocation, Serializable {
 
     @Override
     public Class<?>[] getParameterTypes() {
-        return new Class[0];
+        return parameterTypes;
     }
 
     public void setParameterTypes(Class<?>[] parameterTypes) {
@@ -124,7 +124,7 @@ public class RpcInvocation implements Invocation, Serializable {
 
     @Override
     public Object[] getArguments() {
-        return new Object[0];
+        return arguments;
     }
 
     public void setArguments(Object[] arguments) {

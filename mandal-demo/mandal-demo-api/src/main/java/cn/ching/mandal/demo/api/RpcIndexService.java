@@ -8,5 +8,5 @@ package cn.ching.mandal.demo.api;
  */
 public interface RpcIndexService {
 
-    String index();
+    String index(String msg);
 }

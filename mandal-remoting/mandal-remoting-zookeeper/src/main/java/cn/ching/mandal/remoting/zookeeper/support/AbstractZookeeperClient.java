@@ -43,7 +43,7 @@ public abstract class AbstractZookeeperClient<TargetChildListener> implements Zo
 
     @Override
     public void create(String path, boolean ephemeral) {
-        int i = path.indexOf("/");
+        int i = path.lastIndexOf("/");
         if (i > 0){
             String parentPath = path.substring(0, i);
             if (!checkExits(parentPath)){
