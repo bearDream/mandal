@@ -217,7 +217,7 @@ public class ExtensionLoader<T> {
         if (Objects.isNull(groups) || groups.length == 0){
             return true;
         }
-        if (Objects.isNull(groups) && groups.length > 0){
+        if (!Objects.isNull(groups) && groups.length > 0){
             for (String g : groups){
                 if (g.equals(group)){
                     return true;
@@ -239,7 +239,7 @@ public class ExtensionLoader<T> {
             return true;
         }
 
-        if (Objects.isNull(keys) && keys.length > 0){
+        if (!Objects.isNull(keys) && keys.length > 0){
             for (String key : keys){
                 for (Map.Entry<String, String> entry : url.getParameters().entrySet()){
                     String k = entry.getKey();

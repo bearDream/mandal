@@ -1,6 +1,7 @@
 package cn.ching.mandal.rpc.filter;
 
 import cn.ching.mandal.common.Constants;
+import cn.ching.mandal.common.extension.Activate;
 import cn.ching.mandal.common.utils.ConfigUtils;
 import cn.ching.mandal.rpc.*;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
+@Activate(group = {Constants.PROVIDER, Constants.CONSUMER}, value = Constants.TOKEN_KEY)
 public class TokenFilter implements Filter {
 
 

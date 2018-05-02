@@ -369,7 +369,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
 
         String host = this.findConfigedHost(protocolConfig, registryUrls, map);
         Integer port = this.findConfigedPort(protocolConfig, serviceName, map);
-        URL url = new URL(serviceName, host, port, (StringUtils.isEmpty(contextPath) ? "" : contextPath + "/") + path, serviceName);
+        URL url = new URL(serviceName, host, port, (StringUtils.isEmpty(contextPath) ? "" : contextPath + "/") + path, map);
 
         if (ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class).hasExtension(url.getProtocol())){
             url = ExtensionLoader
@@ -384,12 +384,13 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
         // if config scope is none, then don't export.
         if (!Constants.SCOPE_NONE.equalsIgnoreCase(scope)){
 
-            // if config scope is local, then export local.
-            if (Constants.SCOPE_LOCAL.equalsIgnoreCase(scope)){
+            // if config scope is not remote, then export local.
+            if (!Constants.SCOPE_REMOTE.equalsIgnoreCase(scope)){
                 exportLocal(url);
             }
 
-            if (Constants.SCOPE_REMOTE.equalsIgnoreCase(scope)){
+            // if config scope is not local, then export remote.
+            if (!Constants.SCOPE_LOCAL.equalsIgnoreCase(scope)){
                 if (logger.isInfoEnabled()){
                     logger.info("Export Mandal service: " + interfaceClass.getName() + " to url: " + url);
                 }
@@ -408,7 +409,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
                         Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, registryUrl.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString()));
                         DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
 
-                        Exporter<?> exporter = protocol.export(invoker);
+                        Exporter<?> exporter = protocol.export(wrapperInvoker);
                         exporters.add(exporter);
                     }
                 }else {
@@ -438,7 +439,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
 
         // 1.environment variables
         String hostToBind = getValueFromConfigurator(protocolConfig, Constants.MANDAL_IP_TO_BIND);
-        if (StringUtils.isEmpty(hostToBind) && NetUtils.isInvalidLocalHost(hostToBind)){
+        if (!StringUtils.isEmpty(hostToBind) && NetUtils.isInvalidLocalHost(hostToBind)){
             throw new IllegalArgumentException("Specified invalid bind ip from property " + Constants.MANDAL_IP_TO_BIND + ".value " + hostToBind);
         }
 
@@ -491,7 +492,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
 
         // register.
         String registryHost = getValueFromConfigurator(protocolConfig, Constants.MANDAL_IP_TO_REGISTRY);
-        if (StringUtils.isEmpty(registryHost) && NetUtils.isInvalidLocalHost(registryHost)){
+        if (!StringUtils.isEmpty(registryHost) && NetUtils.isInvalidLocalHost(registryHost)){
             throw new IllegalArgumentException("Specified invalid registry ip from property. " + Constants.MANDAL_IP_TO_REGISTRY + ".value" + registryHost);
         }else if (StringUtils.isEmpty(registryHost)){
             registryHost = hostToBind;

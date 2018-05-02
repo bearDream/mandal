@@ -34,7 +34,7 @@ public class InvokerWrapper<T> implements Invoker<T> {
 
     @Override
     public URL getUrl() {
-        return invoker.getUrl();
+        return url;
     }
 
     @Override

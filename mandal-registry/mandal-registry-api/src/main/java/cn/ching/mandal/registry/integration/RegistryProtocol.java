@@ -204,7 +204,7 @@ public class RegistryProtocol implements Protocol{
     private <T> URL getregistryUrl(Invoker<T> originalInvoker) {
         URL registryUrl = originalInvoker.getUrl();
         if (Constants.REGISTRY_PROTOCOL.equals(registryUrl.getProtocol())){
-            String protocol = registryUrl.getParameter(Constants.REGISTER_KEY, Constants.DEFAULT_DIRECTORY);
+            String protocol = registryUrl.getParameter(Constants.REGISTRY_KEY, Constants.DEFAULT_DIRECTORY);
             registryUrl = registryUrl.setProtocol(protocol).removeParameter(Constants.REGISTER_KEY);
         }
         return  registryUrl;
