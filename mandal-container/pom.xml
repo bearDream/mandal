@@ -9,11 +9,14 @@
         <groupId>cn.ching</groupId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-container</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <modules>
         <module>mandal-container-api</module>

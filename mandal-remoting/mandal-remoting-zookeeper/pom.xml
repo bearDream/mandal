@@ -8,11 +8,14 @@
         <artifactId>mandal-remoting</artifactId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-remoting-zookeeper</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <name>mandal-remoting-zookeeper</name>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>

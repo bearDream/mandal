@@ -10,11 +10,14 @@
         <version>0.0.2-SNAPSHOT</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-config-spring</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The spring config modules of mandal projects</description>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>

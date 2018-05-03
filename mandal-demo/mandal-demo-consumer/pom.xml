@@ -12,6 +12,10 @@
     <groupId>cn.ching</groupId>
     <artifactId>mandal-demo-consumer</artifactId>
     <version>0.0.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <skip_maven_deploy>true</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -66,10 +70,5 @@
             <artifactId>spring-boot-actuator</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>mandal-dependencies-bom</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 </project>

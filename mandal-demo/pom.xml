@@ -10,9 +10,11 @@
         <version>0.0.2-SNAPSHOT</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-demo</artifactId>
     <packaging>pom</packaging>
+    <properties>
+        <skip_maven_deploy>true</skip_maven_deploy>
+    </properties>
 
     <modules>
         <module>mandal-demo-api</module>

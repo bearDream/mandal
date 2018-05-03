@@ -11,12 +11,12 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>mandal-all</name>
     <description>all of mandal jars in one Jar.</description>
+
     <properties>
         <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
@@ -26,6 +26,8 @@
             <groupId>cn.ching</groupId>
             <artifactId>mandal-cluster</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.ching</groupId>
@@ -133,7 +135,6 @@
             <optional>true</optional>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
@@ -160,21 +161,46 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>nexus-release</id>
+            <name>Sonatype Nexus Release</name>
+            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-release</id>
+            <name>beardream maven snapshots repo</name>
+            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>beardream maven snapshots repo</name>
+            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <plugins>
-            <!--<plugin>-->
-                <!--<artifactId>maven-source-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>attach-sources</id>-->
-                        <!--<phase>verify</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>jar</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -289,9 +315,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/mandal/internal/cn.ching.mandal.rpc.InvokerListener</resource>
                                 </transformer>
-
                             </transformers>
-
                         </configuration>
                     </execution>
                 </executions>

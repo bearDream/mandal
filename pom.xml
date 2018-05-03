@@ -18,8 +18,8 @@
         <module>mandal-remoting</module>
         <module>mandal-container</module>
         <module>mandal-monitor</module>
-        <module>mandal-dependencies-bom</module>
         <module>mandal-bom</module>
+        <module>mandal-dependencies-bom</module>
         <module>all</module>
     </modules>
 

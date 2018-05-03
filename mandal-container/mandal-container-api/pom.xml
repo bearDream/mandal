@@ -9,10 +9,13 @@
         <artifactId>mandal-container</artifactId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-container-api</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>

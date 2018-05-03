@@ -10,12 +10,11 @@
         <version>0.0.2-SNAPSHOT</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-rpc-injvm</artifactId>
     <version>0.0.2-SNAPSHOT</version>
-    <name>${project.artifactId}</name>
+    <name>mandal-rpc-injvm</name>
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
 
     <dependencies>

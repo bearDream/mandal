@@ -7,10 +7,14 @@
         <groupId>cn.ching</groupId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
     <artifactId>mandal-cluster</artifactId>
+    <name>mandal-cluster</name>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>

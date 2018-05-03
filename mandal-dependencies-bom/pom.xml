@@ -48,6 +48,8 @@
         <!-- util -->
         <fastjson_version>1.2.38</fastjson_version>
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+
+        <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
 
     <repositories>

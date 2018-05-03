@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * TODO: FIXME If provider is early to consumer up, consumer's reference service is null.
  * @author: laxzhang
  * @email: laxzhang@outlook.com
  * @description: controller

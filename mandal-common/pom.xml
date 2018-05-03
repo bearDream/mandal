@@ -12,6 +12,10 @@
     <artifactId>mandal-common</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>

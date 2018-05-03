@@ -13,6 +13,9 @@
     <artifactId>mandal-demo-api</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <properties>
+        <skip_maven_deploy>true</skip_maven_deploy>
+    </properties>
 
     
 </project>

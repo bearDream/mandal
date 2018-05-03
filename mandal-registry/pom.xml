@@ -12,6 +12,10 @@
     <artifactId>mandal-registry</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
+
     <modules>
         <module>mandal-registry-api</module>
         <module>mandal-registry-default</module>

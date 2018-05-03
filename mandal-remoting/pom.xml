@@ -8,13 +8,14 @@
         <groupId>cn.ching</groupId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
-
     <artifactId>mandal-remoting</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
+
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
+
     <modules>
         <module>mandal-remoting-zookeeper</module>
     </modules>
