@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.ching.mandal.config.spring.configuration.MandalAutoConfiguration
+
+
+org.springframework.context.ApplicationListener=\
+cn.ching.mandal.config.spring.context.event.OverrideMandalConfigApplicationListener,\
+cn.ching.mandal.config.spring.context.event.LogoApplicationListener

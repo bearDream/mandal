@@ -7,12 +7,12 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-registry</artifactId>
-        <version>0.0.2-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <groupId>cn.ching</groupId>
     <artifactId>mandal-registry-multicast</artifactId>
-    <version>0.0.2-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>mandal-registry-multicast</name>
 
     <dependencies>

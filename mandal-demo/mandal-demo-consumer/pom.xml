@@ -7,11 +7,11 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-demo</artifactId>
-        <version>0.0.2-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-demo-consumer</artifactId>
-    <version>0.0.2-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -30,10 +30,45 @@
         <dependency>
             <groupId>cn.ching</groupId>
             <artifactId>mandal-registry-zookeeper</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.ching</groupId>
             <artifactId>mandal-demo-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>mandal-dependencies-bom</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

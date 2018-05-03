@@ -7,11 +7,11 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-demo</artifactId>
-        <version>0.0.2-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-demo-api</artifactId>
-    <version>0.0.2-SNAPSHOTS</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     

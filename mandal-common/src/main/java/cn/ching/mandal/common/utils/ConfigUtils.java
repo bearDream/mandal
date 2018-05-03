@@ -61,7 +61,7 @@ public class ConfigUtils {
         return replaceProperties(properties.getProperty(key, defaultValue), (Map) properties);
     }
 
-    private static Properties getProperties() {
+    public static Properties getProperties() {
         if (Objects.isNull(PROPERTIES)){
             synchronized (ConfigUtils.class){
                 if (Objects.isNull(PROPERTIES)){

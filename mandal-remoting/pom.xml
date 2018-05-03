@@ -6,7 +6,7 @@
     <parent>
         <artifactId>mandal-parent</artifactId>
         <groupId>cn.ching</groupId>
-        <version>0.0.2-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>mandal-remoting</artifactId>

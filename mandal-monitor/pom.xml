@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.ching</groupId>
         <artifactId>mandal-parent</artifactId>
-        <version>0.0.2-SNAPSHOTS</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
     <groupId>cn.ching</groupId>
     <artifactId>mandal-monitor</artifactId>

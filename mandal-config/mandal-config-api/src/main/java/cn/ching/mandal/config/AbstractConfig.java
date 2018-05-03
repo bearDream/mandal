@@ -290,7 +290,7 @@ public abstract class AbstractConfig implements Serializable{
                             value = StringUtils.join((String[]) value, ",");
                         }else if ("parameters".equals(property)){
                             parameterType = Map.class;
-                            value = CollectionUtils.toStringMap((String) value);
+                            value = CollectionUtils.toStringMap((String[]) value);
                         }
                         try {
                             Method setterMethod = getClass().getMethod(setter, new Class<?>[]{parameterType});
