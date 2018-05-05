@@ -161,44 +161,6 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>nexus-release</id>
-            <name>Sonatype Nexus Release</name>
-            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>nexus-release</id>
-            <name>beardream maven snapshots repo</name>
-            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>beardream maven snapshots repo</name>
-            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>

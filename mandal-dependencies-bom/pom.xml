@@ -4,7 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.ching</groupId>
+    <parent>
+        <groupId>cn.ching</groupId>
+        <artifactId>ching-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <artifactId>mandal-dependencies-bom</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -27,14 +31,14 @@
     </developers>
 
     <properties>
-        <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
+        <!--<spring-boot.version>1.5.8.RELEASE</spring-boot.version>-->
         <spring-boot.version>1.3.0.RELEASE</spring-boot.version>
         <!-- common libs -->
         <!-- 3rd lib -->
         <zookeeper_version>3.4.9</zookeeper_version>
         <zkclient>0.2</zkclient>
         <curator_version>2.12.0</curator_version>
-        <spring_version>4.3.10.RELEASE</spring_version>
+        <spring_version>4.3.16.RELEASE</spring_version>
         <kryo_version>4.0.1</kryo_version>
         <kryo_serializers_version>0.42</kryo_serializers_version>
         <!-- common -->
@@ -48,47 +52,7 @@
         <!-- util -->
         <fastjson_version>1.2.38</fastjson_version>
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
-
-        <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>nexus-release</id>
-            <name>Sonatype Nexus Release</name>
-            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>nexus-release</id>
-            <name>beardream maven snapshots repo</name>
-            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>beardream maven snapshots repo</name>
-            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>

@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.ching</groupId>
+    <parent>
+        <groupId>cn.ching</groupId>
+        <artifactId>ching-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <artifactId>mandal-bom</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <name>mandal-bom</name>
     <description>mandal dependencies bom.(specified mandal self dependencies)</description>
     <packaging>pom</packaging>
-
-    <properties>
-        <skip_maven_deploy>false</skip_maven_deploy>
-    </properties>
 
     <inceptionYear>2018</inceptionYear>
     <licenses>
@@ -109,44 +109,6 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>nexus-release</id>
-            <name>Sonatype Nexus Release</name>
-            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>nexus-release</id>
-            <name>beardream maven snapshots repo</name>
-            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>beardream maven snapshots repo</name>
-            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <profiles>
         <profile>

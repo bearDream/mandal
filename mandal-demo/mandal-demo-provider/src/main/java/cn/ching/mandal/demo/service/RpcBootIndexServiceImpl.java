@@ -13,7 +13,6 @@ import cn.ching.mandal.demo.api.RpcIndexService;
 public class RpcBootIndexServiceImpl implements RpcIndexService {
 
     @Override
-
     public String index(String msg) {
         System.out.println("consumer invoke me!");
         return "Hello! Im mandal. Nice to meet you. what are you want to say? " + msg;

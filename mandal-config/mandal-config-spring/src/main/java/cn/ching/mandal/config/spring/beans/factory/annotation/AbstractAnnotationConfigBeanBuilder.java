@@ -1,6 +1,7 @@
 package cn.ching.mandal.config.spring.beans.factory.annotation;
 
 import cn.ching.mandal.common.utils.Assert;
+import cn.ching.mandal.common.utils.CollectionUtils;
 import cn.ching.mandal.config.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -94,7 +95,9 @@ abstract class AbstractAnnotationConfigBeanBuilder<T extends Annotation, Y exten
 
         List<RegistryConfig> registryConfigs = getBeans(applicationContext, registryConfigBeanIds, RegistryConfig.class);
 
-        bean.setRegistries(registryConfigs);
+        if (!CollectionUtils.isEmpty(registryConfigs)){
+            bean.setRegistries(registryConfigs);
+        }
     }
 
     private void configureMonitorConfig(Y bean) {
