@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <groupId>cn.ching.parent</groupId>
+        <artifactId>ching-parent</artifactId>
+        <version>1.0-RELEASE</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
+    <groupId>cn.ching.mandal</groupId>
     <artifactId>mandal-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-RELEASE</version>
     <modules>
         <module>mandal-demo</module>
         <module>mandal-common</module>
@@ -24,15 +24,14 @@
         <module>mandal-remoting</module>
         <module>mandal-container</module>
         <module>mandal-monitor</module>
-        <module>mandal-autoconfigure</module>
-        <module>mandal-dependencies-bom</module>
         <module>mandal-bom</module>
+        <module>mandal-dependencies-bom</module>
         <module>all</module>
     </modules>
 
 
     <properties>
-        <mandal_version>0.0.1-SNAPSHOTS</mandal_version>
+        <mandal_version>0.0.2-RELEASE</mandal_version>
 
         <junit_version>4.12</junit_version>
         <lombokVersion>1.16.18</lombokVersion>
@@ -48,12 +47,50 @@
         <maven_deploy_version>2.8.2</maven_deploy_version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>nexus-release</id>
+            <name>Sonatype Nexus Release</name>
+            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-release</id>
+            <name>beardream maven snapshots repo</name>
+            <url>http://101.132.177.233:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>beardream maven snapshots repo</name>
+            <url>http://101.132.177.233:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cn.ching</groupId>
                 <artifactId>mandal-dependencies-bom</artifactId>
-                <version>0.0.1-SNAPSHOTS</version>
+                <version>0.0.2-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -91,6 +128,43 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.ops4j.pax.exam</groupId>
+                    <artifactId>maven-paxexam-plugin</artifactId>
+                    <version>1.2.4</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.10</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <configuration>
+                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
@@ -157,4 +231,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>

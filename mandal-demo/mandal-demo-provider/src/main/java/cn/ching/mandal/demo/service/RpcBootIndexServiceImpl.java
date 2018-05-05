@@ -1,5 +1,6 @@
-package cn.ching.mandal.demo;
+package cn.ching.mandal.demo.service;
 
+import cn.ching.mandal.config.annoatation.Service;
 import cn.ching.mandal.demo.api.RpcIndexService;
 
 /**
@@ -8,7 +9,8 @@ import cn.ching.mandal.demo.api.RpcIndexService;
  * @author chi.zhang
  * @email laxzhang@outlook.com
  */
-public class RpcIndexServiceImpl implements RpcIndexService {
+@Service(version = "0.0.2", application = "${mandal.application.id}", protocol = "${mandal.protocol.id}", registry = "${mandal.registry.id}")
+public class RpcBootIndexServiceImpl implements RpcIndexService {
 
     @Override
     public String index(String msg) {

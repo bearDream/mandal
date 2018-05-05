@@ -5,14 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-parent</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-demo</artifactId>
     <packaging>pom</packaging>
+    <properties>
+        <skip_maven_deploy>true</skip_maven_deploy>
+    </properties>
 
     <modules>
         <module>mandal-demo-api</module>
@@ -23,7 +25,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-bom</artifactId>
                 <version>${project.parent.version}</version>
                 <type>pom</type>

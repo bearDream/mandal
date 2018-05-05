@@ -502,7 +502,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
             }
         }
 
-        if (Objects.isNull(deleted)){
+        if (!Objects.isNull(deleted)){
             deleted.stream()
                     .filter(url -> !Objects.isNull(url))
                     .forEach(url -> {

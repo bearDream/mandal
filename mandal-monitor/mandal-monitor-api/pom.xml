@@ -4,16 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-monitor</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-monitor-api</artifactId>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-rpc-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

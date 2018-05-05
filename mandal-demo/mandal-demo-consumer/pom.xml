@@ -5,36 +5,69 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-demo</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-demo-consumer</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-RELEASE</version>
+    <packaging>jar</packaging>
+    <properties>
+        <skip_maven_deploy>true</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-config-spring</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-default</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-zookeeper</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-demo-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

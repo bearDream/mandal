@@ -4,17 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-parent</artifactId>
-        <groupId>cn.ching</groupId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
-
     <artifactId>mandal-remoting</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
+
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
+
     <modules>
         <module>mandal-remoting-zookeeper</module>
     </modules>

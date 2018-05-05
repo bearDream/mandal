@@ -5,19 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-        <relativePath/>
+        <groupId>cn.ching.parent</groupId>
+        <artifactId>ching-parent</artifactId>
+        <version>1.0-RELEASE</version>
     </parent>
-    <groupId>cn.ching</groupId>
+    <groupId>cn.ching.mandal</groupId>
     <artifactId>mandal-bom</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
-    <packaging>pom</packaging>
-
-
+    <version>0.0.2-RELEASE</version>
     <name>mandal-bom</name>
     <description>mandal dependencies bom.(specified mandal self dependencies)</description>
+    <packaging>pom</packaging>
 
     <inceptionYear>2018</inceptionYear>
     <licenses>
@@ -30,83 +27,83 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-cluster</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-config-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-config-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-container-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-container-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-monitor-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-monitor-default</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-registry-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-registry-default</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-registry-multicast</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-registry-zookeeper</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-remoting-zookeeper</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-rpc-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-rpc-injvm</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.ching</groupId>
+                <groupId>cn.ching.mandal</groupId>
                 <artifactId>mandal-rpc-rmi</artifactId>
                 <version>${project.version}</version>
             </dependency>

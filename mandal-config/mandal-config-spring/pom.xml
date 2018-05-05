@@ -5,25 +5,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-config</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-config-spring</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The spring config modules of mandal projects</description>
 
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-config-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-rpc-rmi</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -35,6 +38,23 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>

@@ -5,19 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-registry</artifactId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-registry-multicast</artifactId>
-    <version>0.0.1-SNAPSHOTS</version>
+    <version>0.0.2-RELEASE</version>
     <name>mandal-registry-multicast</name>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-api</artifactId>
             <version>${project.version}</version>
         </dependency>

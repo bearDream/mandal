@@ -5,13 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>mandal-parent</artifactId>
-        <groupId>cn.ching</groupId>
-        <version>0.0.1-SNAPSHOTS</version>
+        <groupId>cn.ching.mandal</groupId>
+        <version>0.0.2-RELEASE</version>
     </parent>
 
     <name>${project.artifactId}</name>
     <artifactId>mandal-rpc</artifactId>
     <packaging>pom</packaging>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+    </properties>
 
     <modules>
         <module>mandal-rpc-api</module>

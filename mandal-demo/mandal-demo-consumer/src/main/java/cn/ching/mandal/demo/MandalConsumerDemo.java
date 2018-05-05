@@ -23,7 +23,7 @@ public class MandalConsumerDemo {
 
         while (true){
             try {
-                Thread.sleep(500);
+                Thread.sleep(2000);
                 String index = indexService.index("you are my son..");
                 System.out.println(index);
             } catch (InterruptedException e) {
