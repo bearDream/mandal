@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-registry</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
 
     <artifactId>mandal-registry-multicast</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2-RELEASE</version>
     <name>mandal-registry-multicast</name>
 
     <properties>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-api</artifactId>
             <version>${project.version}</version>
         </dependency>

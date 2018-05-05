@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-monitor</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
     <artifactId>mandal-monitor-default</artifactId>
     <packaging>jar</packaging>
@@ -18,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-monitor-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

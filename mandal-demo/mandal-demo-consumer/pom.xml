@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-demo</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
-    <groupId>cn.ching</groupId>
     <artifactId>mandal-demo-consumer</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2-RELEASE</version>
     <packaging>jar</packaging>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
@@ -19,20 +18,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-config-spring</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-default</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-registry-zookeeper</artifactId>
             <exclusions>
                 <exclusion>
@@ -54,7 +53,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-demo-api</artifactId>
             <version>${project.version}</version>
         </dependency>

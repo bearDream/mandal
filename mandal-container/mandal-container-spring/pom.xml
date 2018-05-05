@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.mandal</groupId>
         <artifactId>mandal-container</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2-RELEASE</version>
     </parent>
     <artifactId>mandal-container-spring</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2-RELEASE</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -19,7 +19,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.ching</groupId>
+            <groupId>cn.ching.mandal</groupId>
             <artifactId>mandal-container-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.ching</groupId>
+        <groupId>cn.ching.parent</groupId>
         <artifactId>ching-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-RELEASE</version>
     </parent>
 
-    <groupId>cn.ching</groupId>
+    <groupId>cn.ching.mandal</groupId>
     <artifactId>mandal-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2-RELEASE</version>
     <modules>
         <module>mandal-demo</module>
         <module>mandal-common</module>
@@ -31,7 +31,7 @@
 
 
     <properties>
-        <mandal_version>0.0.2-SNAPSHOT</mandal_version>
+        <mandal_version>0.0.2-RELEASE</mandal_version>
 
         <junit_version>4.12</junit_version>
         <lombokVersion>1.16.18</lombokVersion>
