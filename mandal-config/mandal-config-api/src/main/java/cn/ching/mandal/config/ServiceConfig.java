@@ -417,7 +417,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig{
                     Invoker<T> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, url);
                     DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
 
-                    Exporter<?> exporter = protocol.export(invoker);
+                    Exporter<?> exporter = protocol.export(wrapperInvoker);
                     exporters.add(exporter);
                 }
             }
