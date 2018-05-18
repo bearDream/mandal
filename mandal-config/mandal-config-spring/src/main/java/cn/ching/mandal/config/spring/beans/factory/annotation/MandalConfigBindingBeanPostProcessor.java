@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  * 2018/4/15
  *
- * Mandal ocnfig binding {@link BeanPostProcessor}
+ * Mandal config binding {@link BeanPostProcessor}
  *
  * @author chi.zhang
  * @email laxzhang@outlook.com
