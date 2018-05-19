@@ -57,7 +57,7 @@ public class RpcResult implements Result, Serializable {
         return exception;
     }
 
-    public void setException() {
+    public void setException(Throwable exception) {
         this.exception = exception;
     }
 
